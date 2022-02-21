@@ -57,6 +57,162 @@ class SecureConnectionProtocol:
 	METHOD_SEND_REPORT = 8
 	
 	PROTOCOL_ID = 0xB
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_REGISTER: self.request_decode_register,
+			self.METHOD_REQUEST_CONNECTION_DATA: self.request_decode_request_connection_data,
+			self.METHOD_REQUEST_URLS: self.request_decode_request_urls,
+			self.METHOD_REGISTER_EX: self.request_decode_register_ex,
+			self.METHOD_TEST_CONNECTIVITY: self.request_decode_test_connectivity,
+			self.METHOD_UPDATE_URLS: self.request_decode_update_urls,
+			self.METHOD_REPLACE_URL: self.request_decode_replace_url,
+			self.METHOD_SEND_REPORT: self.request_decode_send_report,
+		}
+		self.response_decodes = {
+			self.METHOD_REGISTER: self.response_decode_register,
+			self.METHOD_REQUEST_CONNECTION_DATA: self.response_decode_request_connection_data,
+			self.METHOD_REQUEST_URLS: self.response_decode_request_urls,
+			self.METHOD_REGISTER_EX: self.response_decode_register_ex,
+			self.METHOD_TEST_CONNECTIVITY: self.response_decode_test_connectivity,
+			self.METHOD_UPDATE_URLS: self.response_decode_update_urls,
+			self.METHOD_REPLACE_URL: self.response_decode_replace_url,
+			self.METHOD_SEND_REPORT: self.response_decode_send_report,
+		}
+	
+	@staticmethod
+	def request_decode_register(input):
+		result = {}
+		
+		result["urls"] = input.list(input.stationurl)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_register(input):
+		result = {}
+		
+		result["result"] = input.result()
+		result["connection_id"] = input.u32()
+		result["public_station"] = input.stationurl()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_request_connection_data(input):
+		result = {}
+		
+		result["cid"] = input.u32()
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_request_connection_data(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		result["connection_data"] = input.list(ConnectionData)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_request_urls(input):
+		result = {}
+		
+		result["cid"] = input.u32()
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_request_urls(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		result["urls"] = input.list(input.stationurl)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_register_ex(input):
+		result = {}
+		
+		result["urls"] = input.list(input.stationurl)
+		result["login_data"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_register_ex(input):
+		result = {}
+		
+		result["result"] = input.result()
+		result["connection_id"] = input.u32()
+		result["public_station"] = input.stationurl()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_test_connectivity(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_test_connectivity(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_urls(input):
+		result = {}
+		
+		result["urls"] = input.list(input.stationurl)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_urls(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_replace_url(input):
+		result = {}
+		
+		result["url"] = input.stationurl()
+		result["new"] = input.stationurl()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_replace_url(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_send_report(input):
+		result = {}
+		
+		result["report_id"] = input.u32()
+		result["data"] = input.qbuffer()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_send_report(input):
+		result = {}
+		
+		
+		return result
+	
 
 
 class SecureConnectionClient(SecureConnectionProtocol):

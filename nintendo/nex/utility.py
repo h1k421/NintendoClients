@@ -37,6 +37,150 @@ class UtilityProtocol:
 	METHOD_GET_STRING_SETTINGS = 8
 	
 	PROTOCOL_ID = 0x6E
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_ACQUIRE_NEX_UNIQUE_ID: self.request_decode_acquire_nex_unique_id,
+			self.METHOD_ACQUIRE_NEX_UNIQUE_ID_WITH_PASSWORD: self.request_decode_acquire_nex_unique_id_with_password,
+			self.METHOD_ASSOCIATE_NEX_UNIQUE_ID_WITH_MY_PRINCIPAL_ID: self.request_decode_associate_nex_unique_id_with_my_principal_id,
+			self.METHOD_ASSOCIATE_NEX_UNIQUE_IDS_WITH_MY_PRINCIPAL_ID: self.request_decode_associate_nex_unique_ids_with_my_principal_id,
+			self.METHOD_GET_ASSOCIATED_NEX_UNIQUE_ID_WITH_MY_PRINCIPAL_ID: self.request_decode_get_associated_nex_unique_id_with_my_principal_id,
+			self.METHOD_GET_ASSOCIATED_NEX_UNIQUE_IDS_WITH_MY_PRINCIPAL_ID: self.request_decode_get_associated_nex_unique_ids_with_my_principal_id,
+			self.METHOD_GET_INTEGER_SETTINGS: self.request_decode_get_integer_settings,
+			self.METHOD_GET_STRING_SETTINGS: self.request_decode_get_string_settings,
+		}
+		self.response_decodes = {
+			self.METHOD_ACQUIRE_NEX_UNIQUE_ID: self.response_decode_acquire_nex_unique_id,
+			self.METHOD_ACQUIRE_NEX_UNIQUE_ID_WITH_PASSWORD: self.response_decode_acquire_nex_unique_id_with_password,
+			self.METHOD_ASSOCIATE_NEX_UNIQUE_ID_WITH_MY_PRINCIPAL_ID: self.response_decode_associate_nex_unique_id_with_my_principal_id,
+			self.METHOD_ASSOCIATE_NEX_UNIQUE_IDS_WITH_MY_PRINCIPAL_ID: self.response_decode_associate_nex_unique_ids_with_my_principal_id,
+			self.METHOD_GET_ASSOCIATED_NEX_UNIQUE_ID_WITH_MY_PRINCIPAL_ID: self.response_decode_get_associated_nex_unique_id_with_my_principal_id,
+			self.METHOD_GET_ASSOCIATED_NEX_UNIQUE_IDS_WITH_MY_PRINCIPAL_ID: self.response_decode_get_associated_nex_unique_ids_with_my_principal_id,
+			self.METHOD_GET_INTEGER_SETTINGS: self.response_decode_get_integer_settings,
+			self.METHOD_GET_STRING_SETTINGS: self.response_decode_get_string_settings,
+		}
+	
+	@staticmethod
+	def request_decode_acquire_nex_unique_id(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_acquire_nex_unique_id(input):
+		result = {}
+		
+		result["unique_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_acquire_nex_unique_id_with_password(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_acquire_nex_unique_id_with_password(input):
+		result = {}
+		
+		result["info"] = input.extract(UniqueIdInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_associate_nex_unique_id_with_my_principal_id(input):
+		result = {}
+		
+		result["info"] = input.extract(UniqueIdInfo)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_associate_nex_unique_id_with_my_principal_id(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_associate_nex_unique_ids_with_my_principal_id(input):
+		result = {}
+		
+		result["infos"] = input.list(UniqueIdInfo)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_associate_nex_unique_ids_with_my_principal_id(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_associated_nex_unique_id_with_my_principal_id(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_associated_nex_unique_id_with_my_principal_id(input):
+		result = {}
+		
+		result["info"] = input.extract(UniqueIdInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_associated_nex_unique_ids_with_my_principal_id(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_associated_nex_unique_ids_with_my_principal_id(input):
+		result = {}
+		
+		result["infos"] = input.list(UniqueIdInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_integer_settings(input):
+		result = {}
+		
+		result["index"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_integer_settings(input):
+		result = {}
+		
+		result["settings"] = input.map(input.u16, input.s32)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_string_settings(input):
+		result = {}
+		
+		result["index"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_string_settings(input):
+		result = {}
+		
+		result["settings"] = input.map(input.u16, input.string)
+		
+		return result
+	
 
 
 class UtilityClient(UtilityProtocol):

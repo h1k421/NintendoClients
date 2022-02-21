@@ -127,6 +127,144 @@ class MessagingProtocol:
 	METHOD_DELETE_ALL_MESSAGES = 7
 	
 	PROTOCOL_ID = 0x17
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_DELIVER_MESSAGE: self.request_decode_deliver_message,
+			self.METHOD_GET_NUMBER_OF_MESSAGES: self.request_decode_get_number_of_messages,
+			self.METHOD_GET_MESSAGE_HEADERS: self.request_decode_get_message_headers,
+			self.METHOD_RETRIEVE_ALL_MESSAGES_WITHIN_RANGE: self.request_decode_retrieve_all_messages_within_range,
+			self.METHOD_RETRIEVE_MESSAGES: self.request_decode_retrieve_messages,
+			self.METHOD_DELETE_MESSAGES: self.request_decode_delete_messages,
+			self.METHOD_DELETE_ALL_MESSAGES: self.request_decode_delete_all_messages,
+		}
+		self.response_decodes = {
+			self.METHOD_DELIVER_MESSAGE: self.response_decode_deliver_message,
+			self.METHOD_GET_NUMBER_OF_MESSAGES: self.response_decode_get_number_of_messages,
+			self.METHOD_GET_MESSAGE_HEADERS: self.response_decode_get_message_headers,
+			self.METHOD_RETRIEVE_ALL_MESSAGES_WITHIN_RANGE: self.response_decode_retrieve_all_messages_within_range,
+			self.METHOD_RETRIEVE_MESSAGES: self.response_decode_retrieve_messages,
+			self.METHOD_DELETE_MESSAGES: self.response_decode_delete_messages,
+			self.METHOD_DELETE_ALL_MESSAGES: self.response_decode_delete_all_messages,
+		}
+	
+	@staticmethod
+	def request_decode_deliver_message(input):
+		result = {}
+		
+		result["message"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_deliver_message(input):
+		result = {}
+		
+		result["modified_message"] = input.anydata()
+		result["sandbox_node_ids"] = input.list(input.u32)
+		result["participants"] = input.list(input.pid)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_number_of_messages(input):
+		result = {}
+		
+		result["recipient"] = input.extract(MessageRecipient)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_number_of_messages(input):
+		result = {}
+		
+		result["number"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_message_headers(input):
+		result = {}
+		
+		result["recipient"] = input.extract(MessageRecipient)
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_message_headers(input):
+		result = {}
+		
+		result["headers"] = input.list(UserMessage)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_retrieve_all_messages_within_range(input):
+		result = {}
+		
+		result["recipient"] = input.extract(MessageRecipient)
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_retrieve_all_messages_within_range(input):
+		result = {}
+		
+		result["messages"] = input.list(input.anydata)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_retrieve_messages(input):
+		result = {}
+		
+		result["recipient"] = input.extract(MessageRecipient)
+		result["message_ids"] = input.list(input.u32)
+		result["leave_on_server"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_retrieve_messages(input):
+		result = {}
+		
+		result["messages"] = input.list(input.anydata)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_messages(input):
+		result = {}
+		
+		result["recipient"] = input.extract(MessageRecipient)
+		result["message_ids"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_messages(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_all_messages(input):
+		result = {}
+		
+		result["recipient"] = input.extract(MessageRecipient)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_all_messages(input):
+		result = {}
+		
+		result["number_deleted"] = input.u32()
+		
+		return result
+	
 
 
 class MessageDeliveryProtocol:
@@ -135,6 +273,29 @@ class MessageDeliveryProtocol:
 	METHOD_DELIVER_MESSAGE = 1
 	
 	PROTOCOL_ID = 0x1B
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_DELIVER_MESSAGE: self.request_decode_deliver_message,
+		}
+		self.response_decodes = {
+			self.METHOD_DELIVER_MESSAGE: self.response_decode_deliver_message,
+		}
+	
+	@staticmethod
+	def request_decode_deliver_message(input):
+		result = {}
+		
+		result["message"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_deliver_message(input):
+		result = {}
+		
+		
+		return result
+	
 
 
 class MessagingClient(MessagingProtocol):

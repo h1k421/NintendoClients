@@ -824,6 +824,348 @@ class FriendsProtocolV1:
 	METHOD_SEND_INVITATION = 26
 	
 	PROTOCOL_ID = 0x65
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_UPDATE_PROFILE: self.request_decode_update_profile,
+			self.METHOD_UPDATE_MII: self.request_decode_update_mii,
+			self.METHOD_UPDATE_MII_LIST: self.request_decode_update_mii_list,
+			self.METHOD_UPDATE_PLAYED_GAMES: self.request_decode_update_played_games,
+			self.METHOD_UPDATE_PREFERENCE: self.request_decode_update_preference,
+			self.METHOD_GET_FRIEND_MII: self.request_decode_get_friend_mii,
+			self.METHOD_GET_FRIEND_MII_LIST: self.request_decode_get_friend_mii_list,
+			self.METHOD_IS_ACTIVE_GAME: self.request_decode_is_active_game,
+			self.METHOD_GET_PRINCIPAL_ID_BY_LOCAL_FRIEND_CODE: self.request_decode_get_principal_id_by_local_friend_code,
+			self.METHOD_GET_FRIEND_RELATIONSHIPS: self.request_decode_get_friend_relationships,
+			self.METHOD_ADD_FRIEND_BY_PRINCIPAL_ID: self.request_decode_add_friend_by_principal_id,
+			self.METHOD_ADD_FRIEND_BY_PRINCIPAL_IDS: self.request_decode_add_friend_by_principal_ids,
+			self.METHOD_REMOVE_FRIEND_BY_LOCAL_FRIEND_CODE: self.request_decode_remove_friend_by_local_friend_code,
+			self.METHOD_REMOVE_FRIEND_BY_PRINCIPAL_ID: self.request_decode_remove_friend_by_principal_id,
+			self.METHOD_GET_ALL_FRIENDS: self.request_decode_get_all_friends,
+			self.METHOD_UPDATE_BLACK_LIST: self.request_decode_update_black_list,
+			self.METHOD_SYNC_FRIEND: self.request_decode_sync_friend,
+			self.METHOD_UPDATE_PRESENCE: self.request_decode_update_presence,
+			self.METHOD_UPDATE_FAVORITE_GAME_KEY: self.request_decode_update_favorite_game_key,
+			self.METHOD_UPDATE_COMMENT: self.request_decode_update_comment,
+			self.METHOD_UPDATE_PICTURE: self.request_decode_update_picture,
+			self.METHOD_GET_FRIEND_PRESENCE: self.request_decode_get_friend_presence,
+			self.METHOD_GET_FRIEND_COMMENT: self.request_decode_get_friend_comment,
+			self.METHOD_GET_FRIEND_PICTURE: self.request_decode_get_friend_picture,
+			self.METHOD_GET_FRIEND_PERSISTENT_INFO: self.request_decode_get_friend_persistent_info,
+			self.METHOD_SEND_INVITATION: self.request_decode_send_invitation,
+		}
+		self.response_decodes = {
+			self.METHOD_UPDATE_PROFILE: self.response_decode_update_profile,
+			self.METHOD_UPDATE_MII: self.response_decode_update_mii,
+			self.METHOD_UPDATE_MII_LIST: self.response_decode_update_mii_list,
+			self.METHOD_UPDATE_PLAYED_GAMES: self.response_decode_update_played_games,
+			self.METHOD_UPDATE_PREFERENCE: self.response_decode_update_preference,
+			self.METHOD_GET_FRIEND_MII: self.response_decode_get_friend_mii,
+			self.METHOD_GET_FRIEND_MII_LIST: self.response_decode_get_friend_mii_list,
+			self.METHOD_IS_ACTIVE_GAME: self.response_decode_is_active_game,
+			self.METHOD_GET_PRINCIPAL_ID_BY_LOCAL_FRIEND_CODE: self.response_decode_get_principal_id_by_local_friend_code,
+			self.METHOD_GET_FRIEND_RELATIONSHIPS: self.response_decode_get_friend_relationships,
+			self.METHOD_ADD_FRIEND_BY_PRINCIPAL_ID: self.response_decode_add_friend_by_principal_id,
+			self.METHOD_ADD_FRIEND_BY_PRINCIPAL_IDS: self.response_decode_add_friend_by_principal_ids,
+			self.METHOD_REMOVE_FRIEND_BY_LOCAL_FRIEND_CODE: self.response_decode_remove_friend_by_local_friend_code,
+			self.METHOD_REMOVE_FRIEND_BY_PRINCIPAL_ID: self.response_decode_remove_friend_by_principal_id,
+			self.METHOD_GET_ALL_FRIENDS: self.response_decode_get_all_friends,
+			self.METHOD_UPDATE_BLACK_LIST: self.response_decode_update_black_list,
+			self.METHOD_SYNC_FRIEND: self.response_decode_sync_friend,
+			self.METHOD_UPDATE_PRESENCE: self.response_decode_update_presence,
+			self.METHOD_UPDATE_FAVORITE_GAME_KEY: self.response_decode_update_favorite_game_key,
+			self.METHOD_UPDATE_COMMENT: self.response_decode_update_comment,
+			self.METHOD_UPDATE_PICTURE: self.response_decode_update_picture,
+			self.METHOD_GET_FRIEND_PRESENCE: self.response_decode_get_friend_presence,
+			self.METHOD_GET_FRIEND_COMMENT: self.response_decode_get_friend_comment,
+			self.METHOD_GET_FRIEND_PICTURE: self.response_decode_get_friend_picture,
+			self.METHOD_GET_FRIEND_PERSISTENT_INFO: self.response_decode_get_friend_persistent_info,
+			self.METHOD_SEND_INVITATION: self.response_decode_send_invitation,
+		}
+	
+	@staticmethod
+	def request_decode_update_profile(input):
+		result = {}
+		
+		result["profile_data"] = input.extract(MyProfile)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_profile(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_mii(input):
+		result = {}
+		
+		result["mii"] = input.extract(Mii)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_mii(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_mii_list(input):
+		result = {}
+		
+		result["mii_list"] = input.extract(MiiList)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_mii_list(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_played_games(input):
+		result = {}
+		
+		result["played_games"] = input.list(PlayedGame)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_played_games(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_preference(input):
+		result = {}
+		
+		result["unk1"] = input.bool()
+		result["unk2"] = input.bool()
+		result["unk3"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_preference(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_friend_mii(input):
+		result = {}
+		
+		result["friends"] = input.list(FriendMiiRequest)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_friend_mii(input):
+		result = {}
+		
+		result["miis"] = input.list(FriendMii)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_friend_mii_list(input):
+		result = {}
+		
+		result["friends"] = input.list(FriendMiiRequest)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_friend_mii_list(input):
+		result = {}
+		
+		result["mii_lists"] = input.list(FriendMiiList)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_friend_relationships(input):
+		result = {}
+		
+		result["unk"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_friend_relationships(input):
+		result = {}
+		
+		result["friend_relationships"] = input.list(FriendRelationship)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_add_friend_by_principal_id(input):
+		result = {}
+		
+		result["unk"] = input.u64()
+		result["pid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_add_friend_by_principal_id(input):
+		result = {}
+		
+		result["friend_relationship"] = input.extract(FriendRelationship)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_all_friends(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_all_friends(input):
+		result = {}
+		
+		result["friend_relationships"] = input.list(FriendRelationship)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_sync_friend(input):
+		result = {}
+		
+		result["unk1"] = input.u64()
+		result["unk2"] = input.list(input.u32)
+		result["unk3"] = input.list(input.u64)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_sync_friend(input):
+		result = {}
+		
+		result["friend_list"] = input.list(FriendRelationship)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_presence(input):
+		result = {}
+		
+		result["presence_info"] = input.extract(NintendoPresence)
+		result["unk"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_presence(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_favorite_game_key(input):
+		result = {}
+		
+		result["game_key"] = input.extract(GameKey)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_favorite_game_key(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_comment(input):
+		result = {}
+		
+		result["comment"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_comment(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_friend_presence(input):
+		result = {}
+		
+		result["unk"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_friend_presence(input):
+		result = {}
+		
+		result["friend_presence_list"] = input.list(FriendPresence)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_friend_picture(input):
+		result = {}
+		
+		result["unk"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_friend_picture(input):
+		result = {}
+		
+		result["friend_pictures"] = input.list(FriendPicture)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_friend_persistent_info(input):
+		result = {}
+		
+		result["unk"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_friend_persistent_info(input):
+		result = {}
+		
+		result["persistent_infos"] = input.list(FriendPersistentInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_send_invitation(input):
+		result = {}
+		
+		result["unk"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_send_invitation(input):
+		result = {}
+		
+		
+		return result
+	
 
 
 class FriendsProtocolV2:
@@ -849,6 +1191,382 @@ class FriendsProtocolV2:
 	METHOD_GET_REQUEST_BLOCK_SETTINGS = 20
 	
 	PROTOCOL_ID = 0x66
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_UPDATE_AND_GET_ALL_INFORMATION: self.request_decode_update_and_get_all_information,
+			self.METHOD_ADD_FRIEND: self.request_decode_add_friend,
+			self.METHOD_ADD_FRIEND_BY_NAME: self.request_decode_add_friend_by_name,
+			self.METHOD_REMOVE_FRIEND: self.request_decode_remove_friend,
+			self.METHOD_ADD_FRIEND_REQUEST: self.request_decode_add_friend_request,
+			self.METHOD_CANCEL_FRIEND_REQUEST: self.request_decode_cancel_friend_request,
+			self.METHOD_ACCEPT_FRIEND_REQUEST: self.request_decode_accept_friend_request,
+			self.METHOD_DELETE_FRIEND_REQUEST: self.request_decode_delete_friend_request,
+			self.METHOD_DENY_FRIEND_REQUEST: self.request_decode_deny_friend_request,
+			self.METHOD_MARK_FRIEND_REQUESTS_AS_RECEIVED: self.request_decode_mark_friend_requests_as_received,
+			self.METHOD_ADD_BLACK_LIST: self.request_decode_add_black_list,
+			self.METHOD_REMOVE_BLACK_LIST: self.request_decode_remove_black_list,
+			self.METHOD_UPDATE_PRESENCE: self.request_decode_update_presence,
+			self.METHOD_UPDATE_MII: self.request_decode_update_mii,
+			self.METHOD_UPDATE_COMMENT: self.request_decode_update_comment,
+			self.METHOD_UPDATE_PREFERENCE: self.request_decode_update_preference,
+			self.METHOD_GET_BASIC_INFO: self.request_decode_get_basic_info,
+			self.METHOD_DELETE_PERSISTENT_NOTIFICATION: self.request_decode_delete_persistent_notification,
+			self.METHOD_CHECK_SETTING_STATUS: self.request_decode_check_setting_status,
+			self.METHOD_GET_REQUEST_BLOCK_SETTINGS: self.request_decode_get_request_block_settings,
+		}
+		self.response_decodes = {
+			self.METHOD_UPDATE_AND_GET_ALL_INFORMATION: self.response_decode_update_and_get_all_information,
+			self.METHOD_ADD_FRIEND: self.response_decode_add_friend,
+			self.METHOD_ADD_FRIEND_BY_NAME: self.response_decode_add_friend_by_name,
+			self.METHOD_REMOVE_FRIEND: self.response_decode_remove_friend,
+			self.METHOD_ADD_FRIEND_REQUEST: self.response_decode_add_friend_request,
+			self.METHOD_CANCEL_FRIEND_REQUEST: self.response_decode_cancel_friend_request,
+			self.METHOD_ACCEPT_FRIEND_REQUEST: self.response_decode_accept_friend_request,
+			self.METHOD_DELETE_FRIEND_REQUEST: self.response_decode_delete_friend_request,
+			self.METHOD_DENY_FRIEND_REQUEST: self.response_decode_deny_friend_request,
+			self.METHOD_MARK_FRIEND_REQUESTS_AS_RECEIVED: self.response_decode_mark_friend_requests_as_received,
+			self.METHOD_ADD_BLACK_LIST: self.response_decode_add_black_list,
+			self.METHOD_REMOVE_BLACK_LIST: self.response_decode_remove_black_list,
+			self.METHOD_UPDATE_PRESENCE: self.response_decode_update_presence,
+			self.METHOD_UPDATE_MII: self.response_decode_update_mii,
+			self.METHOD_UPDATE_COMMENT: self.response_decode_update_comment,
+			self.METHOD_UPDATE_PREFERENCE: self.response_decode_update_preference,
+			self.METHOD_GET_BASIC_INFO: self.response_decode_get_basic_info,
+			self.METHOD_DELETE_PERSISTENT_NOTIFICATION: self.response_decode_delete_persistent_notification,
+			self.METHOD_CHECK_SETTING_STATUS: self.response_decode_check_setting_status,
+			self.METHOD_GET_REQUEST_BLOCK_SETTINGS: self.response_decode_get_request_block_settings,
+		}
+	
+	@staticmethod
+	def request_decode_update_and_get_all_information(input):
+		result = {}
+		
+		result["nna_info"] = input.extract(NNAInfo)
+		result["presence"] = input.extract(NintendoPresenceV2)
+		result["birthday"] = input.datetime()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_and_get_all_information(input):
+		result = {}
+		
+		result["principal_preference"] = input.extract(PrincipalPreference)
+		result["comment"] = input.extract(Comment)
+		result["friends"] = input.list(FriendInfo)
+		result["sent_requests"] = input.list(FriendRequest)
+		result["received_requests"] = input.list(FriendRequest)
+		result["blacklist"] = input.list(BlacklistedPrincipal)
+		result["unk1"] = input.bool()
+		result["notifications"] = input.list(PersistentNotification)
+		result["unk2"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_add_friend(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_add_friend(input):
+		result = {}
+		
+		result["request"] = input.extract(FriendRequest)
+		result["info"] = input.extract(FriendInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_add_friend_by_name(input):
+		result = {}
+		
+		result["name"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_add_friend_by_name(input):
+		result = {}
+		
+		result["request"] = input.extract(FriendRequest)
+		result["info"] = input.extract(FriendInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_remove_friend(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_remove_friend(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_add_friend_request(input):
+		result = {}
+		
+		result["unk1"] = input.u32()
+		result["unk2"] = input.u8()
+		result["unk3"] = input.string()
+		result["unk4"] = input.u8()
+		result["unk5"] = input.string()
+		result["game_key"] = input.extract(GameKey)
+		result["unk6"] = input.datetime()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_add_friend_request(input):
+		result = {}
+		
+		result["request"] = input.extract(FriendRequest)
+		result["info"] = input.extract(FriendInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_cancel_friend_request(input):
+		result = {}
+		
+		result["id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_cancel_friend_request(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_accept_friend_request(input):
+		result = {}
+		
+		result["id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_accept_friend_request(input):
+		result = {}
+		
+		result["info"] = input.extract(FriendInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_friend_request(input):
+		result = {}
+		
+		result["id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_friend_request(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_deny_friend_request(input):
+		result = {}
+		
+		result["id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_deny_friend_request(input):
+		result = {}
+		
+		result["blacklist"] = input.extract(BlacklistedPrincipal)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_mark_friend_requests_as_received(input):
+		result = {}
+		
+		result["ids"] = input.list(input.u64)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_mark_friend_requests_as_received(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_add_black_list(input):
+		result = {}
+		
+		result["principal"] = input.extract(BlacklistedPrincipal)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_add_black_list(input):
+		result = {}
+		
+		result["principal"] = input.extract(BlacklistedPrincipal)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_remove_black_list(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_remove_black_list(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_presence(input):
+		result = {}
+		
+		result["presence"] = input.extract(NintendoPresenceV2)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_presence(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_mii(input):
+		result = {}
+		
+		result["mii"] = input.extract(MiiV2)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_mii(input):
+		result = {}
+		
+		result["unk"] = input.datetime()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_comment(input):
+		result = {}
+		
+		result["comment"] = input.extract(Comment)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_comment(input):
+		result = {}
+		
+		result["unk"] = input.datetime()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_preference(input):
+		result = {}
+		
+		result["preference"] = input.extract(PrincipalPreference)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_preference(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_basic_info(input):
+		result = {}
+		
+		result["pids"] = input.list(input.pid)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_basic_info(input):
+		result = {}
+		
+		result["info"] = input.list(PrincipalBasicInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_persistent_notification(input):
+		result = {}
+		
+		result["notifications"] = input.list(PersistentNotification)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_persistent_notification(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_check_setting_status(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_check_setting_status(input):
+		result = {}
+		
+		result["unk"] = input.u8()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_request_block_settings(input):
+		result = {}
+		
+		result["unk"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_request_block_settings(input):
+		result = {}
+		
+		result["settings"] = input.list(PrincipalRequestBlockSetting)
+		
+		return result
+	
 
 
 class FriendsClientV1(FriendsProtocolV1):

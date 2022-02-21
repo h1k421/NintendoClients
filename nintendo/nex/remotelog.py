@@ -11,6 +11,29 @@ class RemoteLogDeviceProtocol:
 	METHOD_LOG = 1
 	
 	PROTOCOL_ID = 0x1
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_LOG: self.request_decode_log,
+		}
+		self.response_decodes = {
+			self.METHOD_LOG: self.response_decode_log,
+		}
+	
+	@staticmethod
+	def request_decode_log(input):
+		result = {}
+		
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_log(input):
+		result = {}
+		
+		
+		return result
+	
 
 
 class RemoteLogDeviceClient(RemoteLogDeviceProtocol):

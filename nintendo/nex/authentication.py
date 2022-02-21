@@ -147,6 +147,134 @@ class AuthenticationProtocol:
 	METHOD_LOGIN_WITH_CONTEXT = 6
 	
 	PROTOCOL_ID = 0xA
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_LOGIN: self.request_decode_login,
+			self.METHOD_LOGIN_EX: self.request_decode_login_ex,
+			self.METHOD_REQUEST_TICKET: self.request_decode_request_ticket,
+			self.METHOD_GET_PID: self.request_decode_get_pid,
+			self.METHOD_GET_NAME: self.request_decode_get_name,
+			self.METHOD_LOGIN_WITH_CONTEXT: self.request_decode_login_with_context,
+		}
+		self.response_decodes = {
+			self.METHOD_LOGIN: self.response_decode_login,
+			self.METHOD_LOGIN_EX: self.response_decode_login_ex,
+			self.METHOD_REQUEST_TICKET: self.response_decode_request_ticket,
+			self.METHOD_GET_PID: self.response_decode_get_pid,
+			self.METHOD_GET_NAME: self.response_decode_get_name,
+			self.METHOD_LOGIN_WITH_CONTEXT: self.response_decode_login_with_context,
+		}
+	
+	@staticmethod
+	def request_decode_login(input):
+		result = {}
+		
+		result["username"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_login(input):
+		result = {}
+		
+		result["result"] = input.result()
+		result["pid"] = input.pid()
+		result["ticket"] = input.buffer()
+		result["connection_data"] = input.extract(RVConnectionData)
+		result["server_name"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_login_ex(input):
+		result = {}
+		
+		result["username"] = input.string()
+		result["extra_data"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_login_ex(input):
+		result = {}
+		
+		result["result"] = input.result()
+		result["pid"] = input.pid()
+		result["ticket"] = input.buffer()
+		result["connection_data"] = input.extract(RVConnectionData)
+		result["server_name"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_request_ticket(input):
+		result = {}
+		
+		result["source"] = input.pid()
+		result["target"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_request_ticket(input):
+		result = {}
+		
+		result["result"] = input.result()
+		result["ticket"] = input.buffer()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_pid(input):
+		result = {}
+		
+		result["username"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_pid(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_name(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_name(input):
+		result = {}
+		
+		result["name"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_login_with_context(input):
+		result = {}
+		
+		result["login_data"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_login_with_context(input):
+		result = {}
+		
+		result["result"] = input.result()
+		result["pid"] = input.pid()
+		result["ticket"] = input.buffer()
+		result["connection_data"] = input.extract(RVConnectionData)
+		
+		return result
+	
 
 
 class AuthenticationProtocolNX:
@@ -158,6 +286,133 @@ class AuthenticationProtocolNX:
 	METHOD_VALIDATE_AND_REQUEST_TICKET_WITH_PARAM = 6
 	
 	PROTOCOL_ID = 0xA
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_VALIDATE_AND_REQUEST_TICKET: self.request_decode_validate_and_request_ticket,
+			self.METHOD_VALIDATE_AND_REQUEST_TICKET_WITH_CUSTOM_DATA: self.request_decode_validate_and_request_ticket_with_custom_data,
+			self.METHOD_REQUEST_TICKET: self.request_decode_request_ticket,
+			self.METHOD_GET_PID: self.request_decode_get_pid,
+			self.METHOD_GET_NAME: self.request_decode_get_name,
+			self.METHOD_VALIDATE_AND_REQUEST_TICKET_WITH_PARAM: self.request_decode_validate_and_request_ticket_with_param,
+		}
+		self.response_decodes = {
+			self.METHOD_VALIDATE_AND_REQUEST_TICKET: self.response_decode_validate_and_request_ticket,
+			self.METHOD_VALIDATE_AND_REQUEST_TICKET_WITH_CUSTOM_DATA: self.response_decode_validate_and_request_ticket_with_custom_data,
+			self.METHOD_REQUEST_TICKET: self.response_decode_request_ticket,
+			self.METHOD_GET_PID: self.response_decode_get_pid,
+			self.METHOD_GET_NAME: self.response_decode_get_name,
+			self.METHOD_VALIDATE_AND_REQUEST_TICKET_WITH_PARAM: self.response_decode_validate_and_request_ticket_with_param,
+		}
+	
+	@staticmethod
+	def request_decode_validate_and_request_ticket(input):
+		result = {}
+		
+		result["username"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_validate_and_request_ticket(input):
+		result = {}
+		
+		result["result"] = input.result()
+		result["pid"] = input.pid()
+		result["ticket"] = input.buffer()
+		result["connection_data"] = input.extract(RVConnectionData)
+		result["server_name"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_validate_and_request_ticket_with_custom_data(input):
+		result = {}
+		
+		result["username"] = input.string()
+		result["extra_data"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_validate_and_request_ticket_with_custom_data(input):
+		result = {}
+		
+		result["result"] = input.result()
+		result["pid"] = input.pid()
+		result["ticket"] = input.buffer()
+		result["connection_data"] = input.extract(RVConnectionData)
+		result["server_name"] = input.string()
+		result["source_key"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_request_ticket(input):
+		result = {}
+		
+		result["source"] = input.pid()
+		result["target"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_request_ticket(input):
+		result = {}
+		
+		result["result"] = input.result()
+		result["ticket"] = input.buffer()
+		result["key"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_pid(input):
+		result = {}
+		
+		result["username"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_pid(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_name(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_name(input):
+		result = {}
+		
+		result["name"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_validate_and_request_ticket_with_param(input):
+		result = {}
+		
+		result["param"] = input.extract(ValidateAndRequestTicketParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_validate_and_request_ticket_with_param(input):
+		result = {}
+		
+		result["result"] = input.extract(ValidateAndRequestTicketResult)
+		
+		return result
+	
 
 
 class AuthenticationClient(AuthenticationProtocol):

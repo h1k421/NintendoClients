@@ -398,6 +398,194 @@ class Ranking2Protocol:
 	METHOD_GET_ESTIMATE_SCORE_RANK = 10
 	
 	PROTOCOL_ID = 0x7A
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_PUT_SCORE: self.request_decode_put_score,
+			self.METHOD_GET_COMMON_DATA: self.request_decode_get_common_data,
+			self.METHOD_PUT_COMMON_DATA: self.request_decode_put_common_data,
+			self.METHOD_DELETE_COMMON_DATA: self.request_decode_delete_common_data,
+			self.METHOD_GET_RANKING: self.request_decode_get_ranking,
+			self.METHOD_GET_RANKING_BY_PRINCIPAL_ID: self.request_decode_get_ranking_by_principal_id,
+			self.METHOD_GET_CATEGORY_SETTING: self.request_decode_get_category_setting,
+			self.METHOD_GET_RANKING_CHART: self.request_decode_get_ranking_chart,
+			self.METHOD_GET_RANKING_CHARTS: self.request_decode_get_ranking_charts,
+			self.METHOD_GET_ESTIMATE_SCORE_RANK: self.request_decode_get_estimate_score_rank,
+		}
+		self.response_decodes = {
+			self.METHOD_PUT_SCORE: self.response_decode_put_score,
+			self.METHOD_GET_COMMON_DATA: self.response_decode_get_common_data,
+			self.METHOD_PUT_COMMON_DATA: self.response_decode_put_common_data,
+			self.METHOD_DELETE_COMMON_DATA: self.response_decode_delete_common_data,
+			self.METHOD_GET_RANKING: self.response_decode_get_ranking,
+			self.METHOD_GET_RANKING_BY_PRINCIPAL_ID: self.response_decode_get_ranking_by_principal_id,
+			self.METHOD_GET_CATEGORY_SETTING: self.response_decode_get_category_setting,
+			self.METHOD_GET_RANKING_CHART: self.response_decode_get_ranking_chart,
+			self.METHOD_GET_RANKING_CHARTS: self.response_decode_get_ranking_charts,
+			self.METHOD_GET_ESTIMATE_SCORE_RANK: self.response_decode_get_estimate_score_rank,
+		}
+	
+	@staticmethod
+	def request_decode_put_score(input):
+		result = {}
+		
+		result["socres"] = input.list(Ranking2ScoreData)
+		result["unique_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_put_score(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_common_data(input):
+		result = {}
+		
+		result["option_flags"] = input.u32()
+		result["pid"] = input.pid()
+		result["unique_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_common_data(input):
+		result = {}
+		
+		result["common_data"] = input.extract(Ranking2CommonData)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_put_common_data(input):
+		result = {}
+		
+		result["data"] = input.extract(Ranking2CommonData)
+		result["unique_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_put_common_data(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_common_data(input):
+		result = {}
+		
+		result["unique_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_common_data(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_ranking(input):
+		result = {}
+		
+		result["param"] = input.extract(Ranking2GetParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_ranking(input):
+		result = {}
+		
+		result["info"] = input.extract(Ranking2Info)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_ranking_by_principal_id(input):
+		result = {}
+		
+		result["param"] = input.extract(Ranking2GetByListParam)
+		result["pids"] = input.list(input.pid)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_ranking_by_principal_id(input):
+		result = {}
+		
+		result["info"] = input.extract(Ranking2Info)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_category_setting(input):
+		result = {}
+		
+		result["category"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_category_setting(input):
+		result = {}
+		
+		result["setting"] = input.extract(Ranking2CategorySetting)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_ranking_chart(input):
+		result = {}
+		
+		result["input"] = input.extract(Ranking2ChartInfoInput)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_ranking_chart(input):
+		result = {}
+		
+		result["info"] = input.extract(Ranking2ChartInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_ranking_charts(input):
+		result = {}
+		
+		result["inputs"] = input.list(Ranking2ChartInfoInput)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_ranking_charts(input):
+		result = {}
+		
+		result["infos"] = input.list(Ranking2ChartInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_estimate_score_rank(input):
+		result = {}
+		
+		result["input"] = input.extract(Ranking2EstimateScoreRankInput)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_estimate_score_rank(input):
+		result = {}
+		
+		result["output"] = input.extract(Ranking2EstimateScoreRankOutput)
+		
+		return result
+	
 
 
 class Ranking2Client(Ranking2Protocol):

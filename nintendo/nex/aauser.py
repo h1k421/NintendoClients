@@ -35,6 +35,80 @@ class AAUserProtocol:
 	METHOD_GET_APPLICATION_INFO = 4
 	
 	PROTOCOL_ID = 0x7B
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_REGISTER_APPLICATION: self.request_decode_register_application,
+			self.METHOD_UNREGISTER_APPLICATION: self.request_decode_unregister_application,
+			self.METHOD_SET_APPLICATION_INFO: self.request_decode_set_application_info,
+			self.METHOD_GET_APPLICATION_INFO: self.request_decode_get_application_info,
+		}
+		self.response_decodes = {
+			self.METHOD_REGISTER_APPLICATION: self.response_decode_register_application,
+			self.METHOD_UNREGISTER_APPLICATION: self.response_decode_unregister_application,
+			self.METHOD_SET_APPLICATION_INFO: self.response_decode_set_application_info,
+			self.METHOD_GET_APPLICATION_INFO: self.response_decode_get_application_info,
+		}
+	
+	@staticmethod
+	def request_decode_register_application(input):
+		result = {}
+		
+		result["title_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_register_application(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_unregister_application(input):
+		result = {}
+		
+		result["title_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_unregister_application(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_set_application_info(input):
+		result = {}
+		
+		result["application_info"] = input.list(ApplicationInfo)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_set_application_info(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_application_info(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_application_info(input):
+		result = {}
+		
+		result["info"] = input.list(ApplicationInfo)
+		
+		return result
+	
 
 
 class AAUserClient(AAUserProtocol):

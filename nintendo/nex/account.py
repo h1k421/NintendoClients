@@ -103,6 +103,585 @@ class AccountProtocol:
 	METHOD_DISCONNECT_ALL_PRINCIPALS = 30
 	
 	PROTOCOL_ID = 0x19
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_CREATE_ACCOUNT: self.request_decode_create_account,
+			self.METHOD_DELETE_ACCOUNT: self.request_decode_delete_account,
+			self.METHOD_DISABLE_ACCOUNT: self.request_decode_disable_account,
+			self.METHOD_CHANGE_PASSWORD: self.request_decode_change_password,
+			self.METHOD_TEST_CAPABILITY: self.request_decode_test_capability,
+			self.METHOD_GET_NAME: self.request_decode_get_name,
+			self.METHOD_GET_ACCOUNT_DATA: self.request_decode_get_account_data,
+			self.METHOD_GET_PRIVATE_DATA: self.request_decode_get_private_data,
+			self.METHOD_GET_PUBLIC_DATA: self.request_decode_get_public_data,
+			self.METHOD_GET_MULTIPLE_PUBLIC_DATA: self.request_decode_get_multiple_public_data,
+			self.METHOD_UPDATE_ACCOUNT_NAME: self.request_decode_update_account_name,
+			self.METHOD_UPDATE_ACCOUNT_EMAIL: self.request_decode_update_account_email,
+			self.METHOD_UPDATE_CUSTOM_DATA: self.request_decode_update_custom_data,
+			self.METHOD_FIND_BY_NAME_REGEX: self.request_decode_find_by_name_regex,
+			self.METHOD_UPDATE_ACCOUNT_EXPIRY_DATE: self.request_decode_update_account_expiry_date,
+			self.METHOD_UPDATE_ACCOUNT_EFFECTIVE_DATE: self.request_decode_update_account_effective_date,
+			self.METHOD_UPDATE_STATUS: self.request_decode_update_status,
+			self.METHOD_GET_STATUS: self.request_decode_get_status,
+			self.METHOD_GET_LAST_CONNECTION_STATS: self.request_decode_get_last_connection_stats,
+			self.METHOD_RESET_PASSWORD: self.request_decode_reset_password,
+			self.METHOD_CREATE_ACCOUNT_WITH_CUSTOM_DATA: self.request_decode_create_account_with_custom_data,
+			self.METHOD_RETRIEVE_ACCOUNT: self.request_decode_retrieve_account,
+			self.METHOD_UPDATE_ACCOUNT: self.request_decode_update_account,
+			self.METHOD_CHANGE_PASSWORD_BY_GUEST: self.request_decode_change_password_by_guest,
+			self.METHOD_FIND_BY_NAME_LIKE: self.request_decode_find_by_name_like,
+			self.METHOD_CUSTOM_CREATE_ACCOUNT: self.request_decode_custom_create_account,
+			self.METHOD_NINTENDO_CREATE_ACCOUNT: self.request_decode_nintendo_create_account,
+			self.METHOD_LOOKUP_OR_CREATE_ACCOUNT: self.request_decode_lookup_or_create_account,
+			self.METHOD_DISCONNECT_PRINCIPAL: self.request_decode_disconnect_principal,
+			self.METHOD_DISCONNECT_ALL_PRINCIPALS: self.request_decode_disconnect_all_principals,
+		}
+		self.response_decodes = {
+			self.METHOD_CREATE_ACCOUNT: self.response_decode_create_account,
+			self.METHOD_DELETE_ACCOUNT: self.response_decode_delete_account,
+			self.METHOD_DISABLE_ACCOUNT: self.response_decode_disable_account,
+			self.METHOD_CHANGE_PASSWORD: self.response_decode_change_password,
+			self.METHOD_TEST_CAPABILITY: self.response_decode_test_capability,
+			self.METHOD_GET_NAME: self.response_decode_get_name,
+			self.METHOD_GET_ACCOUNT_DATA: self.response_decode_get_account_data,
+			self.METHOD_GET_PRIVATE_DATA: self.response_decode_get_private_data,
+			self.METHOD_GET_PUBLIC_DATA: self.response_decode_get_public_data,
+			self.METHOD_GET_MULTIPLE_PUBLIC_DATA: self.response_decode_get_multiple_public_data,
+			self.METHOD_UPDATE_ACCOUNT_NAME: self.response_decode_update_account_name,
+			self.METHOD_UPDATE_ACCOUNT_EMAIL: self.response_decode_update_account_email,
+			self.METHOD_UPDATE_CUSTOM_DATA: self.response_decode_update_custom_data,
+			self.METHOD_FIND_BY_NAME_REGEX: self.response_decode_find_by_name_regex,
+			self.METHOD_UPDATE_ACCOUNT_EXPIRY_DATE: self.response_decode_update_account_expiry_date,
+			self.METHOD_UPDATE_ACCOUNT_EFFECTIVE_DATE: self.response_decode_update_account_effective_date,
+			self.METHOD_UPDATE_STATUS: self.response_decode_update_status,
+			self.METHOD_GET_STATUS: self.response_decode_get_status,
+			self.METHOD_GET_LAST_CONNECTION_STATS: self.response_decode_get_last_connection_stats,
+			self.METHOD_RESET_PASSWORD: self.response_decode_reset_password,
+			self.METHOD_CREATE_ACCOUNT_WITH_CUSTOM_DATA: self.response_decode_create_account_with_custom_data,
+			self.METHOD_RETRIEVE_ACCOUNT: self.response_decode_retrieve_account,
+			self.METHOD_UPDATE_ACCOUNT: self.response_decode_update_account,
+			self.METHOD_CHANGE_PASSWORD_BY_GUEST: self.response_decode_change_password_by_guest,
+			self.METHOD_FIND_BY_NAME_LIKE: self.response_decode_find_by_name_like,
+			self.METHOD_CUSTOM_CREATE_ACCOUNT: self.response_decode_custom_create_account,
+			self.METHOD_NINTENDO_CREATE_ACCOUNT: self.response_decode_nintendo_create_account,
+			self.METHOD_LOOKUP_OR_CREATE_ACCOUNT: self.response_decode_lookup_or_create_account,
+			self.METHOD_DISCONNECT_PRINCIPAL: self.response_decode_disconnect_principal,
+			self.METHOD_DISCONNECT_ALL_PRINCIPALS: self.response_decode_disconnect_all_principals,
+		}
+	
+	@staticmethod
+	def request_decode_create_account(input):
+		result = {}
+		
+		result["name"] = input.string()
+		result["key"] = input.string()
+		result["groups"] = input.u32()
+		result["email"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_create_account(input):
+		result = {}
+		
+		result["result"] = input.result()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_account(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_account(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_disable_account(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		result["until"] = input.datetime()
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_disable_account(input):
+		result = {}
+		
+		result["result"] = input.result()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_change_password(input):
+		result = {}
+		
+		result["new_key"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_change_password(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_test_capability(input):
+		result = {}
+		
+		result["capability"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_test_capability(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_name(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_name(input):
+		result = {}
+		
+		result["name"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_account_data(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_account_data(input):
+		result = {}
+		
+		result["result"] = input.result()
+		result["data"] = input.extract(AccountData)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_private_data(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_private_data(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		result["data"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_public_data(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_public_data(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		result["data"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_multiple_public_data(input):
+		result = {}
+		
+		result["pids"] = input.list(input.pid)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_multiple_public_data(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		result["data"] = input.list(input.anydata)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_account_name(input):
+		result = {}
+		
+		result["name"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_account_name(input):
+		result = {}
+		
+		result["result"] = input.result()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_account_email(input):
+		result = {}
+		
+		result["email"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_account_email(input):
+		result = {}
+		
+		result["result"] = input.result()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_custom_data(input):
+		result = {}
+		
+		result["public_data"] = input.anydata()
+		result["private_data"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_custom_data(input):
+		result = {}
+		
+		result["result"] = input.result()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_by_name_regex(input):
+		result = {}
+		
+		result["groups"] = input.u32()
+		result["regex"] = input.string()
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_by_name_regex(input):
+		result = {}
+		
+		result["accounts"] = input.list(BasicAccountInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_account_expiry_date(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		result["expiry"] = input.datetime()
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_account_expiry_date(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_account_effective_date(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		result["effective_from"] = input.datetime()
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_account_effective_date(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_status(input):
+		result = {}
+		
+		result["status"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_status(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_status(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_status(input):
+		result = {}
+		
+		result["status"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_last_connection_stats(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_last_connection_stats(input):
+		result = {}
+		
+		result["last_session_login"] = input.datetime()
+		result["last_session_logout"] = input.datetime()
+		result["current_session_login"] = input.datetime()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_reset_password(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_reset_password(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_create_account_with_custom_data(input):
+		result = {}
+		
+		result["name"] = input.string()
+		result["key"] = input.string()
+		result["groups"] = input.u32()
+		result["email"] = input.string()
+		result["public_data"] = input.anydata()
+		result["private_data"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_create_account_with_custom_data(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_retrieve_account(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_retrieve_account(input):
+		result = {}
+		
+		result["account_data"] = input.extract(AccountData)
+		result["public_data"] = input.anydata()
+		result["private_data"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_account(input):
+		result = {}
+		
+		result["key"] = input.string()
+		result["email"] = input.string()
+		result["public_data"] = input.anydata()
+		result["private_data"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_account(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_change_password_by_guest(input):
+		result = {}
+		
+		result["name"] = input.string()
+		result["email"] = input.string()
+		result["key"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_change_password_by_guest(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_by_name_like(input):
+		result = {}
+		
+		result["groups"] = input.u32()
+		result["like"] = input.string()
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_by_name_like(input):
+		result = {}
+		
+		result["accounts"] = input.list(BasicAccountInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_custom_create_account(input):
+		result = {}
+		
+		result["name"] = input.string()
+		result["key"] = input.string()
+		result["groups"] = input.u32()
+		result["email"] = input.string()
+		result["auth_data"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_custom_create_account(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_nintendo_create_account(input):
+		result = {}
+		
+		result["name"] = input.string()
+		result["key"] = input.string()
+		result["groups"] = input.u32()
+		result["email"] = input.string()
+		result["auth_data"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_nintendo_create_account(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		result["pid_hmac"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_lookup_or_create_account(input):
+		result = {}
+		
+		result["name"] = input.string()
+		result["key"] = input.string()
+		result["groups"] = input.u32()
+		result["email"] = input.string()
+		result["auth_data"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_lookup_or_create_account(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_disconnect_principal(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_disconnect_principal(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_disconnect_all_principals(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_disconnect_all_principals(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
 
 
 class AccountClient(AccountProtocol):

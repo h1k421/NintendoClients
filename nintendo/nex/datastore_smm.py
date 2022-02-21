@@ -1375,6 +1375,907 @@ class DataStoreProtocolSMM:
 	METHOD_GET_APPLICATION_CONFIG_STRING = 74
 	
 	PROTOCOL_ID = 0x73
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_PREPARE_GET_OBJECT_V1: self.request_decode_prepare_get_object_v1,
+			self.METHOD_PREPARE_POST_OBJECT_V1: self.request_decode_prepare_post_object_v1,
+			self.METHOD_COMPLETE_POST_OBJECT_V1: self.request_decode_complete_post_object_v1,
+			self.METHOD_DELETE_OBJECT: self.request_decode_delete_object,
+			self.METHOD_DELETE_OBJECTS: self.request_decode_delete_objects,
+			self.METHOD_CHANGE_META_V1: self.request_decode_change_meta_v1,
+			self.METHOD_CHANGE_METAS_V1: self.request_decode_change_metas_v1,
+			self.METHOD_GET_META: self.request_decode_get_meta,
+			self.METHOD_GET_METAS: self.request_decode_get_metas,
+			self.METHOD_PREPARE_UPDATE_OBJECT: self.request_decode_prepare_update_object,
+			self.METHOD_COMPLETE_UPDATE_OBJECT: self.request_decode_complete_update_object,
+			self.METHOD_SEARCH_OBJECT: self.request_decode_search_object,
+			self.METHOD_GET_NOTIFICATION_URL: self.request_decode_get_notification_url,
+			self.METHOD_GET_NEW_ARRIVED_NOTIFICATIONS_V1: self.request_decode_get_new_arrived_notifications_v1,
+			self.METHOD_RATE_OBJECT: self.request_decode_rate_object,
+			self.METHOD_GET_RATING: self.request_decode_get_rating,
+			self.METHOD_GET_RATINGS: self.request_decode_get_ratings,
+			self.METHOD_RESET_RATING: self.request_decode_reset_rating,
+			self.METHOD_RESET_RATINGS: self.request_decode_reset_ratings,
+			self.METHOD_GET_SPECIFIC_META_V1: self.request_decode_get_specific_meta_v1,
+			self.METHOD_POST_META_BINARY: self.request_decode_post_meta_binary,
+			self.METHOD_TOUCH_OBJECT: self.request_decode_touch_object,
+			self.METHOD_GET_RATING_WITH_LOG: self.request_decode_get_rating_with_log,
+			self.METHOD_PREPARE_POST_OBJECT: self.request_decode_prepare_post_object,
+			self.METHOD_PREPARE_GET_OBJECT: self.request_decode_prepare_get_object,
+			self.METHOD_COMPLETE_POST_OBJECT: self.request_decode_complete_post_object,
+			self.METHOD_GET_NEW_ARRIVED_NOTIFICATIONS: self.request_decode_get_new_arrived_notifications,
+			self.METHOD_GET_SPECIFIC_META: self.request_decode_get_specific_meta,
+			self.METHOD_GET_PERSISTENCE_INFO: self.request_decode_get_persistence_info,
+			self.METHOD_GET_PERSISTENCE_INFOS: self.request_decode_get_persistence_infos,
+			self.METHOD_PERPETUATE_OBJECT: self.request_decode_perpetuate_object,
+			self.METHOD_UNPERPETUATE_OBJECT: self.request_decode_unperpetuate_object,
+			self.METHOD_PREPARE_GET_OBJECT_OR_META_BINARY: self.request_decode_prepare_get_object_or_meta_binary,
+			self.METHOD_GET_PASSWORD_INFO: self.request_decode_get_password_info,
+			self.METHOD_GET_PASSWORD_INFOS: self.request_decode_get_password_infos,
+			self.METHOD_GET_METAS_MULTIPLE_PARAM: self.request_decode_get_metas_multiple_param,
+			self.METHOD_COMPLETE_POST_OBJECTS: self.request_decode_complete_post_objects,
+			self.METHOD_CHANGE_META: self.request_decode_change_meta,
+			self.METHOD_CHANGE_METAS: self.request_decode_change_metas,
+			self.METHOD_RATE_OBJECTS: self.request_decode_rate_objects,
+			self.METHOD_POST_META_BINARY_WITH_DATA_ID: self.request_decode_post_meta_binary_with_data_id,
+			self.METHOD_POST_META_BINARIES_WITH_DATA_ID: self.request_decode_post_meta_binaries_with_data_id,
+			self.METHOD_RATE_OBJECT_WITH_POSTING: self.request_decode_rate_object_with_posting,
+			self.METHOD_RATE_OBJECTS_WITH_POSTING: self.request_decode_rate_objects_with_posting,
+			self.METHOD_GET_OBJECT_INFOS: self.request_decode_get_object_infos,
+			self.METHOD_SEARCH_OBJECT_LIGHT: self.request_decode_search_object_light,
+			self.METHOD_GET_APPLICATION_CONFIG: self.request_decode_get_application_config,
+			self.METHOD_GET_APPLICATION_CONFIG_STRING: self.request_decode_get_application_config_string,
+		}
+		self.response_decodes = {
+			self.METHOD_PREPARE_GET_OBJECT_V1: self.response_decode_prepare_get_object_v1,
+			self.METHOD_PREPARE_POST_OBJECT_V1: self.response_decode_prepare_post_object_v1,
+			self.METHOD_COMPLETE_POST_OBJECT_V1: self.response_decode_complete_post_object_v1,
+			self.METHOD_DELETE_OBJECT: self.response_decode_delete_object,
+			self.METHOD_DELETE_OBJECTS: self.response_decode_delete_objects,
+			self.METHOD_CHANGE_META_V1: self.response_decode_change_meta_v1,
+			self.METHOD_CHANGE_METAS_V1: self.response_decode_change_metas_v1,
+			self.METHOD_GET_META: self.response_decode_get_meta,
+			self.METHOD_GET_METAS: self.response_decode_get_metas,
+			self.METHOD_PREPARE_UPDATE_OBJECT: self.response_decode_prepare_update_object,
+			self.METHOD_COMPLETE_UPDATE_OBJECT: self.response_decode_complete_update_object,
+			self.METHOD_SEARCH_OBJECT: self.response_decode_search_object,
+			self.METHOD_GET_NOTIFICATION_URL: self.response_decode_get_notification_url,
+			self.METHOD_GET_NEW_ARRIVED_NOTIFICATIONS_V1: self.response_decode_get_new_arrived_notifications_v1,
+			self.METHOD_RATE_OBJECT: self.response_decode_rate_object,
+			self.METHOD_GET_RATING: self.response_decode_get_rating,
+			self.METHOD_GET_RATINGS: self.response_decode_get_ratings,
+			self.METHOD_RESET_RATING: self.response_decode_reset_rating,
+			self.METHOD_RESET_RATINGS: self.response_decode_reset_ratings,
+			self.METHOD_GET_SPECIFIC_META_V1: self.response_decode_get_specific_meta_v1,
+			self.METHOD_POST_META_BINARY: self.response_decode_post_meta_binary,
+			self.METHOD_TOUCH_OBJECT: self.response_decode_touch_object,
+			self.METHOD_GET_RATING_WITH_LOG: self.response_decode_get_rating_with_log,
+			self.METHOD_PREPARE_POST_OBJECT: self.response_decode_prepare_post_object,
+			self.METHOD_PREPARE_GET_OBJECT: self.response_decode_prepare_get_object,
+			self.METHOD_COMPLETE_POST_OBJECT: self.response_decode_complete_post_object,
+			self.METHOD_GET_NEW_ARRIVED_NOTIFICATIONS: self.response_decode_get_new_arrived_notifications,
+			self.METHOD_GET_SPECIFIC_META: self.response_decode_get_specific_meta,
+			self.METHOD_GET_PERSISTENCE_INFO: self.response_decode_get_persistence_info,
+			self.METHOD_GET_PERSISTENCE_INFOS: self.response_decode_get_persistence_infos,
+			self.METHOD_PERPETUATE_OBJECT: self.response_decode_perpetuate_object,
+			self.METHOD_UNPERPETUATE_OBJECT: self.response_decode_unperpetuate_object,
+			self.METHOD_PREPARE_GET_OBJECT_OR_META_BINARY: self.response_decode_prepare_get_object_or_meta_binary,
+			self.METHOD_GET_PASSWORD_INFO: self.response_decode_get_password_info,
+			self.METHOD_GET_PASSWORD_INFOS: self.response_decode_get_password_infos,
+			self.METHOD_GET_METAS_MULTIPLE_PARAM: self.response_decode_get_metas_multiple_param,
+			self.METHOD_COMPLETE_POST_OBJECTS: self.response_decode_complete_post_objects,
+			self.METHOD_CHANGE_META: self.response_decode_change_meta,
+			self.METHOD_CHANGE_METAS: self.response_decode_change_metas,
+			self.METHOD_RATE_OBJECTS: self.response_decode_rate_objects,
+			self.METHOD_POST_META_BINARY_WITH_DATA_ID: self.response_decode_post_meta_binary_with_data_id,
+			self.METHOD_POST_META_BINARIES_WITH_DATA_ID: self.response_decode_post_meta_binaries_with_data_id,
+			self.METHOD_RATE_OBJECT_WITH_POSTING: self.response_decode_rate_object_with_posting,
+			self.METHOD_RATE_OBJECTS_WITH_POSTING: self.response_decode_rate_objects_with_posting,
+			self.METHOD_GET_OBJECT_INFOS: self.response_decode_get_object_infos,
+			self.METHOD_SEARCH_OBJECT_LIGHT: self.response_decode_search_object_light,
+			self.METHOD_GET_APPLICATION_CONFIG: self.response_decode_get_application_config,
+			self.METHOD_GET_APPLICATION_CONFIG_STRING: self.response_decode_get_application_config_string,
+		}
+	
+	@staticmethod
+	def request_decode_prepare_get_object_v1(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStorePrepareGetParamV1)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_prepare_get_object_v1(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreReqGetInfoV1)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_prepare_post_object_v1(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStorePreparePostParamV1)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_prepare_post_object_v1(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreReqPostInfoV1)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_complete_post_object_v1(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreCompletePostParamV1)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_complete_post_object_v1(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreDeleteParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_object(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_objects(input):
+		result = {}
+		
+		result["param"] = input.list(DataStoreDeleteParam)
+		result["transactional"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_objects(input):
+		result = {}
+		
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_change_meta_v1(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreChangeMetaParamV1)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_change_meta_v1(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_change_metas_v1(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		result["param"] = input.list(DataStoreChangeMetaParamV1)
+		result["transactional"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_change_metas_v1(input):
+		result = {}
+		
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_meta(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreGetMetaParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_meta(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreMetaInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_metas(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		result["param"] = input.extract(DataStoreGetMetaParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_metas(input):
+		result = {}
+		
+		result["info"] = input.list(DataStoreMetaInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_prepare_update_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStorePrepareUpdateParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_prepare_update_object(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreReqUpdateInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_complete_update_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreCompleteUpdateParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_complete_update_object(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreSearchParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_object(input):
+		result = {}
+		
+		result["result"] = input.extract(DataStoreSearchResult)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_notification_url(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreGetNotificationUrlParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_notification_url(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreReqGetNotificationUrlInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_new_arrived_notifications_v1(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreGetNewArrivedNotificationsParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_new_arrived_notifications_v1(input):
+		result = {}
+		
+		result["result"] = input.list(DataStoreNotificationV1)
+		result["has_next"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_rate_object(input):
+		result = {}
+		
+		result["target"] = input.extract(DataStoreRatingTarget)
+		result["param"] = input.extract(DataStoreRateObjectParam)
+		result["fetch_ratings"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_rate_object(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreRatingInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_rating(input):
+		result = {}
+		
+		result["target"] = input.extract(DataStoreRatingTarget)
+		result["access_password"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_rating(input):
+		result = {}
+		
+		result["rating"] = input.extract(DataStoreRatingInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_ratings(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		result["access_password"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_ratings(input):
+		result = {}
+		
+		result["ratings"] = input.list(lambda: input.list(DataStoreRatingInfoWithSlot))
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_reset_rating(input):
+		result = {}
+		
+		result["target"] = input.extract(DataStoreRatingTarget)
+		result["update_password"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_reset_rating(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_reset_ratings(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		result["transactional"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_reset_ratings(input):
+		result = {}
+		
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_specific_meta_v1(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreGetSpecificMetaParamV1)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_specific_meta_v1(input):
+		result = {}
+		
+		result["infos"] = input.list(DataStoreSpecificMetaInfoV1)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_post_meta_binary(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStorePreparePostParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_post_meta_binary(input):
+		result = {}
+		
+		result["data_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_touch_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreTouchObjectParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_touch_object(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_rating_with_log(input):
+		result = {}
+		
+		result["target"] = input.extract(DataStoreRatingTarget)
+		result["access_password"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_rating_with_log(input):
+		result = {}
+		
+		result["rating"] = input.extract(DataStoreRatingInfo)
+		result["log"] = input.extract(DataStoreRatingLog)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_prepare_post_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStorePreparePostParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_prepare_post_object(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreReqPostInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_prepare_get_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStorePrepareGetParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_prepare_get_object(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreReqGetInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_complete_post_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreCompletePostParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_complete_post_object(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_new_arrived_notifications(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreGetNewArrivedNotificationsParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_new_arrived_notifications(input):
+		result = {}
+		
+		result["result"] = input.list(DataStoreNotification)
+		result["has_next"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_specific_meta(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreGetSpecificMetaParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_specific_meta(input):
+		result = {}
+		
+		result["infos"] = input.list(DataStoreSpecificMetaInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_persistence_info(input):
+		result = {}
+		
+		result["owner_id"] = input.pid()
+		result["slot_id"] = input.u16()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_persistence_info(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStorePersistenceInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_persistence_infos(input):
+		result = {}
+		
+		result["owner_id"] = input.pid()
+		result["slot_ids"] = input.list(input.u16)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_persistence_infos(input):
+		result = {}
+		
+		result["infos"] = input.list(DataStorePersistenceInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_perpetuate_object(input):
+		result = {}
+		
+		result["persistence_slot_id"] = input.u16()
+		result["data_id"] = input.u64()
+		result["delete_last_object"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_perpetuate_object(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_unperpetuate_object(input):
+		result = {}
+		
+		result["persistence_slot_id"] = input.u16()
+		result["delete_last_object"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_unperpetuate_object(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_prepare_get_object_or_meta_binary(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStorePrepareGetParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_prepare_get_object_or_meta_binary(input):
+		result = {}
+		
+		result["get_info"] = input.extract(DataStoreReqGetInfo)
+		result["additional_meta"] = input.extract(DataStoreReqGetAdditionalMeta)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_password_info(input):
+		result = {}
+		
+		result["data_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_password_info(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStorePasswordInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_password_infos(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_password_infos(input):
+		result = {}
+		
+		result["infos"] = input.list(DataStorePasswordInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_metas_multiple_param(input):
+		result = {}
+		
+		result["params"] = input.list(DataStoreGetMetaParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_metas_multiple_param(input):
+		result = {}
+		
+		result["infos"] = input.list(DataStoreMetaInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_complete_post_objects(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_complete_post_objects(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_change_meta(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreChangeMetaParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_change_meta(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_change_metas(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		result["param"] = input.list(DataStoreChangeMetaParam)
+		result["transactional"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_change_metas(input):
+		result = {}
+		
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_rate_objects(input):
+		result = {}
+		
+		result["targets"] = input.list(DataStoreRatingTarget)
+		result["param"] = input.list(DataStoreRateObjectParam)
+		result["transactional"] = input.bool()
+		result["fetch_ratings"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_rate_objects(input):
+		result = {}
+		
+		result["infos"] = input.list(DataStoreRatingInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_post_meta_binary_with_data_id(input):
+		result = {}
+		
+		result["data_id"] = input.u64()
+		result["param"] = input.extract(DataStorePreparePostParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_post_meta_binary_with_data_id(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_post_meta_binaries_with_data_id(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		result["param"] = input.list(DataStorePreparePostParam)
+		result["transactional"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_post_meta_binaries_with_data_id(input):
+		result = {}
+		
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_rate_object_with_posting(input):
+		result = {}
+		
+		result["target"] = input.extract(DataStoreRatingTarget)
+		result["rate_param"] = input.extract(DataStoreRateObjectParam)
+		result["post_param"] = input.extract(DataStorePreparePostParam)
+		result["fetch_ratings"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_rate_object_with_posting(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreRatingInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_rate_objects_with_posting(input):
+		result = {}
+		
+		result["targets"] = input.list(DataStoreRatingTarget)
+		result["rate_param"] = input.list(DataStoreRateObjectParam)
+		result["post_param"] = input.list(DataStorePreparePostParam)
+		result["transactional"] = input.bool()
+		result["fetch_ratings"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_rate_objects_with_posting(input):
+		result = {}
+		
+		result["ratings"] = input.list(DataStoreRatingInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_object_infos(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_object_infos(input):
+		result = {}
+		
+		result["infos"] = input.list(DataStoreReqGetInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_object_light(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreSearchParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_object_light(input):
+		result = {}
+		
+		result["result"] = input.extract(DataStoreSearchResult)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_application_config(input):
+		result = {}
+		
+		result["id"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_application_config(input):
+		result = {}
+		
+		result["config"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_application_config_string(input):
+		result = {}
+		
+		result["id"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_application_config_string(input):
+		result = {}
+		
+		result["config"] = input.list(input.string)
+		
+		return result
+	
 
 
 class DataStoreClientSMM(DataStoreProtocolSMM):

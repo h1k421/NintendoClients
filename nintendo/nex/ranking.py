@@ -250,6 +250,301 @@ class RankingProtocol:
 	METHOD_GET_CACHED_TOPX_RANKINGS = 15
 	
 	PROTOCOL_ID = 0x70
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_UPLOAD_SCORE: self.request_decode_upload_score,
+			self.METHOD_DELETE_SCORE: self.request_decode_delete_score,
+			self.METHOD_DELETE_ALL_SCORES: self.request_decode_delete_all_scores,
+			self.METHOD_UPLOAD_COMMON_DATA: self.request_decode_upload_common_data,
+			self.METHOD_DELETE_COMMON_DATA: self.request_decode_delete_common_data,
+			self.METHOD_GET_COMMON_DATA: self.request_decode_get_common_data,
+			self.METHOD_CHANGE_ATTRIBUTES: self.request_decode_change_attributes,
+			self.METHOD_CHANGE_ALL_ATTRIBUTES: self.request_decode_change_all_attributes,
+			self.METHOD_GET_RANKING: self.request_decode_get_ranking,
+			self.METHOD_GET_APPROX_ORDER: self.request_decode_get_approx_order,
+			self.METHOD_GET_STATS: self.request_decode_get_stats,
+			self.METHOD_GET_RANKING_BY_PID_LIST: self.request_decode_get_ranking_by_pid_list,
+			self.METHOD_GET_RANKING_BY_UNIQUE_ID_LIST: self.request_decode_get_ranking_by_unique_id_list,
+			self.METHOD_GET_CACHED_TOPX_RANKING: self.request_decode_get_cached_topx_ranking,
+			self.METHOD_GET_CACHED_TOPX_RANKINGS: self.request_decode_get_cached_topx_rankings,
+		}
+		self.response_decodes = {
+			self.METHOD_UPLOAD_SCORE: self.response_decode_upload_score,
+			self.METHOD_DELETE_SCORE: self.response_decode_delete_score,
+			self.METHOD_DELETE_ALL_SCORES: self.response_decode_delete_all_scores,
+			self.METHOD_UPLOAD_COMMON_DATA: self.response_decode_upload_common_data,
+			self.METHOD_DELETE_COMMON_DATA: self.response_decode_delete_common_data,
+			self.METHOD_GET_COMMON_DATA: self.response_decode_get_common_data,
+			self.METHOD_CHANGE_ATTRIBUTES: self.response_decode_change_attributes,
+			self.METHOD_CHANGE_ALL_ATTRIBUTES: self.response_decode_change_all_attributes,
+			self.METHOD_GET_RANKING: self.response_decode_get_ranking,
+			self.METHOD_GET_APPROX_ORDER: self.response_decode_get_approx_order,
+			self.METHOD_GET_STATS: self.response_decode_get_stats,
+			self.METHOD_GET_RANKING_BY_PID_LIST: self.response_decode_get_ranking_by_pid_list,
+			self.METHOD_GET_RANKING_BY_UNIQUE_ID_LIST: self.response_decode_get_ranking_by_unique_id_list,
+			self.METHOD_GET_CACHED_TOPX_RANKING: self.response_decode_get_cached_topx_ranking,
+			self.METHOD_GET_CACHED_TOPX_RANKINGS: self.response_decode_get_cached_topx_rankings,
+		}
+	
+	@staticmethod
+	def request_decode_upload_score(input):
+		result = {}
+		
+		result["score_data"] = input.extract(RankingScoreData)
+		result["unique_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_upload_score(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_score(input):
+		result = {}
+		
+		result["category"] = input.u32()
+		result["unique_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_score(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_all_scores(input):
+		result = {}
+		
+		result["unique_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_all_scores(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_upload_common_data(input):
+		result = {}
+		
+		result["common_data"] = input.buffer()
+		result["unique_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_upload_common_data(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_common_data(input):
+		result = {}
+		
+		result["unique_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_common_data(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_common_data(input):
+		result = {}
+		
+		result["unique_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_common_data(input):
+		result = {}
+		
+		result["data"] = input.buffer()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_change_attributes(input):
+		result = {}
+		
+		result["category"] = input.u32()
+		result["param"] = input.extract(RankingChangeAttributesParam)
+		result["unique_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_change_attributes(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_change_all_attributes(input):
+		result = {}
+		
+		result["param"] = input.extract(RankingChangeAttributesParam)
+		result["unique_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_change_all_attributes(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_ranking(input):
+		result = {}
+		
+		result["mode"] = input.u8()
+		result["category"] = input.u32()
+		result["order"] = input.extract(RankingOrderParam)
+		result["unique_id"] = input.u64()
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_ranking(input):
+		result = {}
+		
+		result["result"] = input.extract(RankingResult)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_approx_order(input):
+		result = {}
+		
+		result["category"] = input.u32()
+		result["order"] = input.extract(RankingOrderParam)
+		result["score"] = input.u32()
+		result["unique_id"] = input.u64()
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_approx_order(input):
+		result = {}
+		
+		result["order"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_stats(input):
+		result = {}
+		
+		result["category"] = input.u32()
+		result["order"] = input.extract(RankingOrderParam)
+		result["flags"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_stats(input):
+		result = {}
+		
+		result["stats"] = input.extract(RankingStats)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_ranking_by_pid_list(input):
+		result = {}
+		
+		result["pids"] = input.list(input.pid)
+		result["mode"] = input.u8()
+		result["category"] = input.u32()
+		result["order"] = input.extract(RankingOrderParam)
+		result["unique_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_ranking_by_pid_list(input):
+		result = {}
+		
+		result["result"] = input.extract(RankingResult)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_ranking_by_unique_id_list(input):
+		result = {}
+		
+		result["ids"] = input.list(input.u64)
+		result["mode"] = input.u8()
+		result["category"] = input.u32()
+		result["order"] = input.extract(RankingOrderParam)
+		result["unique_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_ranking_by_unique_id_list(input):
+		result = {}
+		
+		result["result"] = input.extract(RankingResult)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_cached_topx_ranking(input):
+		result = {}
+		
+		result["category"] = input.u32()
+		result["order"] = input.extract(RankingOrderParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_cached_topx_ranking(input):
+		result = {}
+		
+		result["result"] = input.extract(RankingCachedResult)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_cached_topx_rankings(input):
+		result = {}
+		
+		result["categories"] = input.list(input.u32)
+		result["order"] = input.list(RankingOrderParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_cached_topx_rankings(input):
+		result = {}
+		
+		result["results"] = input.list(RankingCachedResult)
+		
+		return result
+	
 
 
 class RankingClient(RankingProtocol):

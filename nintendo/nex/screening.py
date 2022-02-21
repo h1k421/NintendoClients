@@ -10,6 +10,12 @@ logger = logging.getLogger(__name__)
 class ScreeningProtocol:
 	
 	PROTOCOL_ID = 0x7C
+	def __init__(self):
+		self.request_decodes = {
+		}
+		self.response_decodes = {
+		}
+	
 
 
 class ScreeningClient(ScreeningProtocol):

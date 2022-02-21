@@ -952,6 +952,833 @@ class MatchMakingProtocol:
 	METHOD_MIGRATE_GATHERING_OWNERSHIP = 44
 	
 	PROTOCOL_ID = 0x15
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_REGISTER_GATHERING: self.request_decode_register_gathering,
+			self.METHOD_UNREGISTER_GATHERING: self.request_decode_unregister_gathering,
+			self.METHOD_UNREGISTER_GATHERINGS: self.request_decode_unregister_gatherings,
+			self.METHOD_UPDATE_GATHERING: self.request_decode_update_gathering,
+			self.METHOD_INVITE: self.request_decode_invite,
+			self.METHOD_ACCEPT_INVITATION: self.request_decode_accept_invitation,
+			self.METHOD_DECLINE_INVITATION: self.request_decode_decline_invitation,
+			self.METHOD_CANCEL_INVITATION: self.request_decode_cancel_invitation,
+			self.METHOD_GET_INVITATIONS_SENT: self.request_decode_get_invitations_sent,
+			self.METHOD_GET_INVITATIONS_RECEIVED: self.request_decode_get_invitations_received,
+			self.METHOD_PARTICIPATE: self.request_decode_participate,
+			self.METHOD_CANCEL_PARTICIPATION: self.request_decode_cancel_participation,
+			self.METHOD_GET_PARTICIPANTS: self.request_decode_get_participants,
+			self.METHOD_ADD_PARTICIPANTS: self.request_decode_add_participants,
+			self.METHOD_GET_DETAILED_PARTICIPANTS: self.request_decode_get_detailed_participants,
+			self.METHOD_GET_PARTICIPANTS_URLS: self.request_decode_get_participants_urls,
+			self.METHOD_FIND_BY_TYPE: self.request_decode_find_by_type,
+			self.METHOD_FIND_BY_DESCRIPTION: self.request_decode_find_by_description,
+			self.METHOD_FIND_BY_DESCRIPTION_REGEX: self.request_decode_find_by_description_regex,
+			self.METHOD_FIND_BY_ID: self.request_decode_find_by_id,
+			self.METHOD_FIND_BY_SINGLE_ID: self.request_decode_find_by_single_id,
+			self.METHOD_FIND_BY_OWNER: self.request_decode_find_by_owner,
+			self.METHOD_FIND_BY_PARTICIPANTS: self.request_decode_find_by_participants,
+			self.METHOD_FIND_INVITATIONS: self.request_decode_find_invitations,
+			self.METHOD_FIND_BY_SQL_QUERY: self.request_decode_find_by_sql_query,
+			self.METHOD_LAUNCH_SESSION: self.request_decode_launch_session,
+			self.METHOD_UPDATE_SESSION_URL: self.request_decode_update_session_url,
+			self.METHOD_GET_SESSION_URL: self.request_decode_get_session_url,
+			self.METHOD_GET_STATE: self.request_decode_get_state,
+			self.METHOD_SET_STATE: self.request_decode_set_state,
+			self.METHOD_REPORT_STATS: self.request_decode_report_stats,
+			self.METHOD_GET_STATS: self.request_decode_get_stats,
+			self.METHOD_DELETE_GATHERING: self.request_decode_delete_gathering,
+			self.METHOD_GET_PENDING_DELETIONS: self.request_decode_get_pending_deletions,
+			self.METHOD_DELETE_FROM_DELETIONS: self.request_decode_delete_from_deletions,
+			self.METHOD_MIGRATE_GATHERING_OWNERSHIP_V1: self.request_decode_migrate_gathering_ownership_v1,
+			self.METHOD_FIND_BY_DESCRIPTION_LIKE: self.request_decode_find_by_description_like,
+			self.METHOD_REGISTER_LOCAL_URL: self.request_decode_register_local_url,
+			self.METHOD_REGISTER_LOCAL_URLS: self.request_decode_register_local_urls,
+			self.METHOD_UPDATE_SESSION_HOST_V1: self.request_decode_update_session_host_v1,
+			self.METHOD_GET_SESSION_URLS: self.request_decode_get_session_urls,
+			self.METHOD_UPDATE_SESSION_HOST: self.request_decode_update_session_host,
+			self.METHOD_UPDATE_GATHERING_OWNERSHIP: self.request_decode_update_gathering_ownership,
+			self.METHOD_MIGRATE_GATHERING_OWNERSHIP: self.request_decode_migrate_gathering_ownership,
+		}
+		self.response_decodes = {
+			self.METHOD_REGISTER_GATHERING: self.response_decode_register_gathering,
+			self.METHOD_UNREGISTER_GATHERING: self.response_decode_unregister_gathering,
+			self.METHOD_UNREGISTER_GATHERINGS: self.response_decode_unregister_gatherings,
+			self.METHOD_UPDATE_GATHERING: self.response_decode_update_gathering,
+			self.METHOD_INVITE: self.response_decode_invite,
+			self.METHOD_ACCEPT_INVITATION: self.response_decode_accept_invitation,
+			self.METHOD_DECLINE_INVITATION: self.response_decode_decline_invitation,
+			self.METHOD_CANCEL_INVITATION: self.response_decode_cancel_invitation,
+			self.METHOD_GET_INVITATIONS_SENT: self.response_decode_get_invitations_sent,
+			self.METHOD_GET_INVITATIONS_RECEIVED: self.response_decode_get_invitations_received,
+			self.METHOD_PARTICIPATE: self.response_decode_participate,
+			self.METHOD_CANCEL_PARTICIPATION: self.response_decode_cancel_participation,
+			self.METHOD_GET_PARTICIPANTS: self.response_decode_get_participants,
+			self.METHOD_ADD_PARTICIPANTS: self.response_decode_add_participants,
+			self.METHOD_GET_DETAILED_PARTICIPANTS: self.response_decode_get_detailed_participants,
+			self.METHOD_GET_PARTICIPANTS_URLS: self.response_decode_get_participants_urls,
+			self.METHOD_FIND_BY_TYPE: self.response_decode_find_by_type,
+			self.METHOD_FIND_BY_DESCRIPTION: self.response_decode_find_by_description,
+			self.METHOD_FIND_BY_DESCRIPTION_REGEX: self.response_decode_find_by_description_regex,
+			self.METHOD_FIND_BY_ID: self.response_decode_find_by_id,
+			self.METHOD_FIND_BY_SINGLE_ID: self.response_decode_find_by_single_id,
+			self.METHOD_FIND_BY_OWNER: self.response_decode_find_by_owner,
+			self.METHOD_FIND_BY_PARTICIPANTS: self.response_decode_find_by_participants,
+			self.METHOD_FIND_INVITATIONS: self.response_decode_find_invitations,
+			self.METHOD_FIND_BY_SQL_QUERY: self.response_decode_find_by_sql_query,
+			self.METHOD_LAUNCH_SESSION: self.response_decode_launch_session,
+			self.METHOD_UPDATE_SESSION_URL: self.response_decode_update_session_url,
+			self.METHOD_GET_SESSION_URL: self.response_decode_get_session_url,
+			self.METHOD_GET_STATE: self.response_decode_get_state,
+			self.METHOD_SET_STATE: self.response_decode_set_state,
+			self.METHOD_REPORT_STATS: self.response_decode_report_stats,
+			self.METHOD_GET_STATS: self.response_decode_get_stats,
+			self.METHOD_DELETE_GATHERING: self.response_decode_delete_gathering,
+			self.METHOD_GET_PENDING_DELETIONS: self.response_decode_get_pending_deletions,
+			self.METHOD_DELETE_FROM_DELETIONS: self.response_decode_delete_from_deletions,
+			self.METHOD_MIGRATE_GATHERING_OWNERSHIP_V1: self.response_decode_migrate_gathering_ownership_v1,
+			self.METHOD_FIND_BY_DESCRIPTION_LIKE: self.response_decode_find_by_description_like,
+			self.METHOD_REGISTER_LOCAL_URL: self.response_decode_register_local_url,
+			self.METHOD_REGISTER_LOCAL_URLS: self.response_decode_register_local_urls,
+			self.METHOD_UPDATE_SESSION_HOST_V1: self.response_decode_update_session_host_v1,
+			self.METHOD_GET_SESSION_URLS: self.response_decode_get_session_urls,
+			self.METHOD_UPDATE_SESSION_HOST: self.response_decode_update_session_host,
+			self.METHOD_UPDATE_GATHERING_OWNERSHIP: self.response_decode_update_gathering_ownership,
+			self.METHOD_MIGRATE_GATHERING_OWNERSHIP: self.response_decode_migrate_gathering_ownership,
+		}
+	
+	@staticmethod
+	def request_decode_register_gathering(input):
+		result = {}
+		
+		result["gathering"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_register_gathering(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_unregister_gathering(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_unregister_gathering(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_unregister_gatherings(input):
+		result = {}
+		
+		result["gids"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_unregister_gatherings(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_gathering(input):
+		result = {}
+		
+		result["gathering"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_gathering(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_invite(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["pids"] = input.list(input.pid)
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_invite(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_accept_invitation(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_accept_invitation(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_decline_invitation(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_decline_invitation(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_cancel_invitation(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["pids"] = input.list(input.pid)
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_cancel_invitation(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_invitations_sent(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_invitations_sent(input):
+		result = {}
+		
+		result["invitations"] = input.list(Invitation)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_invitations_received(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_invitations_received(input):
+		result = {}
+		
+		result["invitations"] = input.list(Invitation)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_participate(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_participate(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_cancel_participation(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_cancel_participation(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_participants(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_participants(input):
+		result = {}
+		
+		result["participants"] = input.list(input.pid)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_add_participants(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["pids"] = input.list(input.pid)
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_add_participants(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_detailed_participants(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_detailed_participants(input):
+		result = {}
+		
+		result["details"] = input.list(ParticipantDetails)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_participants_urls(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_participants_urls(input):
+		result = {}
+		
+		result["urls"] = input.list(input.stationurl)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_by_type(input):
+		result = {}
+		
+		result["type"] = input.string()
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_by_type(input):
+		result = {}
+		
+		result["gatherings"] = input.list(input.anydata)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_by_description(input):
+		result = {}
+		
+		result["description"] = input.string()
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_by_description(input):
+		result = {}
+		
+		result["gatherings"] = input.list(input.anydata)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_by_description_regex(input):
+		result = {}
+		
+		result["regex"] = input.string()
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_by_description_regex(input):
+		result = {}
+		
+		result["gatherings"] = input.list(input.anydata)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_by_id(input):
+		result = {}
+		
+		result["ids"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_by_id(input):
+		result = {}
+		
+		result["gatherings"] = input.list(input.anydata)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_by_single_id(input):
+		result = {}
+		
+		result["id"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_by_single_id(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		result["gathering"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_by_owner(input):
+		result = {}
+		
+		result["owner"] = input.pid()
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_by_owner(input):
+		result = {}
+		
+		result["gatherings"] = input.list(input.anydata)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_by_participants(input):
+		result = {}
+		
+		result["pids"] = input.list(input.pid)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_by_participants(input):
+		result = {}
+		
+		result["gatherings"] = input.list(input.anydata)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_invitations(input):
+		result = {}
+		
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_invitations(input):
+		result = {}
+		
+		result["gatherings"] = input.list(input.anydata)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_by_sql_query(input):
+		result = {}
+		
+		result["query"] = input.string()
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_by_sql_query(input):
+		result = {}
+		
+		result["gatherings"] = input.list(input.anydata)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_launch_session(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["url"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_launch_session(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_session_url(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["url"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_session_url(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_session_url(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_session_url(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		result["url"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_state(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_state(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		result["state"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_set_state(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["state"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_set_state(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_report_stats(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["stats"] = input.list(GatheringStats)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_report_stats(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_stats(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["pids"] = input.list(input.pid)
+		result["columns"] = input.list(input.u8)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_stats(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		result["stats"] = input.list(GatheringStats)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_gathering(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_gathering(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_pending_deletions(input):
+		result = {}
+		
+		result["reason"] = input.u32()
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_pending_deletions(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		result["deletions"] = input.list(DeletionEntry)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_from_deletions(input):
+		result = {}
+		
+		result["deletions"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_from_deletions(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_migrate_gathering_ownership_v1(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["potential_owners"] = input.list(input.pid)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_migrate_gathering_ownership_v1(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_by_description_like(input):
+		result = {}
+		
+		result["description"] = input.string()
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_by_description_like(input):
+		result = {}
+		
+		result["gatherings"] = input.list(input.anydata)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_register_local_url(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["url"] = input.stationurl()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_register_local_url(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_register_local_urls(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["urls"] = input.list(input.stationurl)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_register_local_urls(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_session_host_v1(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_session_host_v1(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_session_urls(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_session_urls(input):
+		result = {}
+		
+		result["urls"] = input.list(input.stationurl)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_session_host(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["is_migrate_owner"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_session_host(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_gathering_ownership(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["participants_only"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_gathering_ownership(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_migrate_gathering_ownership(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["potential_owners"] = input.list(input.pid)
+		result["participants_only"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_migrate_gathering_ownership(input):
+		result = {}
+		
+		
+		return result
+	
 
 
 class MatchMakingProtocolExt:
@@ -963,6 +1790,124 @@ class MatchMakingProtocolExt:
 	METHOD_DELETE_FROM_DELETIONS = 6
 	
 	PROTOCOL_ID = 0x32
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_END_PARTICIPATION: self.request_decode_end_participation,
+			self.METHOD_GET_PARTICIPANTS: self.request_decode_get_participants,
+			self.METHOD_GET_DETAILED_PARTICIPANTS: self.request_decode_get_detailed_participants,
+			self.METHOD_GET_PARTICIPANTS_URLS: self.request_decode_get_participants_urls,
+			self.METHOD_GET_GATHERING_RELATIONS: self.request_decode_get_gathering_relations,
+			self.METHOD_DELETE_FROM_DELETIONS: self.request_decode_delete_from_deletions,
+		}
+		self.response_decodes = {
+			self.METHOD_END_PARTICIPATION: self.response_decode_end_participation,
+			self.METHOD_GET_PARTICIPANTS: self.response_decode_get_participants,
+			self.METHOD_GET_DETAILED_PARTICIPANTS: self.response_decode_get_detailed_participants,
+			self.METHOD_GET_PARTICIPANTS_URLS: self.response_decode_get_participants_urls,
+			self.METHOD_GET_GATHERING_RELATIONS: self.response_decode_get_gathering_relations,
+			self.METHOD_DELETE_FROM_DELETIONS: self.response_decode_delete_from_deletions,
+		}
+	
+	@staticmethod
+	def request_decode_end_participation(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_end_participation(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_participants(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["only_active"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_participants(input):
+		result = {}
+		
+		result["participants"] = input.list(input.pid)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_detailed_participants(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["only_active"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_detailed_participants(input):
+		result = {}
+		
+		result["details"] = input.list(ParticipantDetails)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_participants_urls(input):
+		result = {}
+		
+		result["gids"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_participants_urls(input):
+		result = {}
+		
+		result["urls"] = input.list(GatheringURLs)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_gathering_relations(input):
+		result = {}
+		
+		result["id"] = input.u32()
+		result["descr"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_gathering_relations(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_from_deletions(input):
+		result = {}
+		
+		result["deletions"] = input.list(input.u32)
+		result["pid"] = input.pid()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_from_deletions(input):
+		result = {}
+		
+		
+		return result
+	
 
 
 class MatchmakeExtensionProtocol:
@@ -1021,6 +1966,985 @@ class MatchmakeExtensionProtocol:
 	METHOD_BROWSE_MATCHMAKE_SESSION_WITH_HOST_URLS_NO_HOLDER_NO_RESULT_RANGE = 53
 	
 	PROTOCOL_ID = 0x6D
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_CLOSE_PARTICIPATION: self.request_decode_close_participation,
+			self.METHOD_OPEN_PARTICIPATION: self.request_decode_open_participation,
+			self.METHOD_AUTO_MATCHMAKE_POSTPONE: self.request_decode_auto_matchmake_postpone,
+			self.METHOD_BROWSE_MATCHMAKE_SESSION: self.request_decode_browse_matchmake_session,
+			self.METHOD_BROWSE_MATCHMAKE_SESSION_WITH_HOST_URLS: self.request_decode_browse_matchmake_session_with_host_urls,
+			self.METHOD_CREATE_MATCHMAKE_SESSION: self.request_decode_create_matchmake_session,
+			self.METHOD_JOIN_MATCHMAKE_SESSION: self.request_decode_join_matchmake_session,
+			self.METHOD_MODIFY_CURRENT_GAME_ATTRIBUTE: self.request_decode_modify_current_game_attribute,
+			self.METHOD_UPDATE_NOTIFICATION_DATA: self.request_decode_update_notification_data,
+			self.METHOD_GET_FRIEND_NOTIFICATION_DATA: self.request_decode_get_friend_notification_data,
+			self.METHOD_UPDATE_APPLICATION_BUFFER: self.request_decode_update_application_buffer,
+			self.METHOD_UPDATE_MATCHMAKE_SESSION_ATTRIBUTE: self.request_decode_update_matchmake_session_attribute,
+			self.METHOD_GET_FRIEND_NOTIFICATION_DATA_LIST: self.request_decode_get_friend_notification_data_list,
+			self.METHOD_UPDATE_MATCHMAKE_SESSION: self.request_decode_update_matchmake_session,
+			self.METHOD_AUTO_MATCHMAKE_WITH_SEARCH_CRITERIA_POSTPONE: self.request_decode_auto_matchmake_with_search_criteria_postpone,
+			self.METHOD_GET_PLAYING_SESSION: self.request_decode_get_playing_session,
+			self.METHOD_CREATE_COMMUNITY: self.request_decode_create_community,
+			self.METHOD_UPDATE_COMMUNITY: self.request_decode_update_community,
+			self.METHOD_JOIN_COMMUNITY: self.request_decode_join_community,
+			self.METHOD_FIND_COMMUNITY_BY_GATHERING_ID: self.request_decode_find_community_by_gathering_id,
+			self.METHOD_FIND_OFFICIAL_COMMUNITY: self.request_decode_find_official_community,
+			self.METHOD_FIND_COMMUNITY_BY_PARTICIPANT: self.request_decode_find_community_by_participant,
+			self.METHOD_UPDATE_PRIVACY_SETTING: self.request_decode_update_privacy_setting,
+			self.METHOD_GET_MY_BLOCK_LIST: self.request_decode_get_my_block_list,
+			self.METHOD_ADD_TO_BLOCK_LIST: self.request_decode_add_to_block_list,
+			self.METHOD_REMOVE_FROM_BLOCK_LIST: self.request_decode_remove_from_block_list,
+			self.METHOD_CLEAR_MY_BLOCK_LIST: self.request_decode_clear_my_block_list,
+			self.METHOD_REPORT_VIOLATION: self.request_decode_report_violation,
+			self.METHOD_IS_VIOLATION_USER: self.request_decode_is_violation_user,
+			self.METHOD_JOIN_MATCHMAKE_SESSION_EX: self.request_decode_join_matchmake_session_ex,
+			self.METHOD_GET_SIMPLE_PLAYING_SESSION: self.request_decode_get_simple_playing_session,
+			self.METHOD_GET_SIMPLE_COMMUNITY: self.request_decode_get_simple_community,
+			self.METHOD_AUTO_MATCHMAKE_WITH_GATHERING_ID_POSTPONE: self.request_decode_auto_matchmake_with_gathering_id_postpone,
+			self.METHOD_UPDATE_PROGRESS_SCORE: self.request_decode_update_progress_score,
+			self.METHOD_DEBUG_NOTIFY_EVENT: self.request_decode_debug_notify_event,
+			self.METHOD_GENERATE_MATCHMAKE_SESSION_SYSTEM_PASSWORD: self.request_decode_generate_matchmake_session_system_password,
+			self.METHOD_CLEAR_MATCHMAKE_SESSION_SYSTEM_PASSWORD: self.request_decode_clear_matchmake_session_system_password,
+			self.METHOD_CREATE_MATCHMAKE_SESSION_WITH_PARAM: self.request_decode_create_matchmake_session_with_param,
+			self.METHOD_JOIN_MATCHMAKE_SESSION_WITH_PARAM: self.request_decode_join_matchmake_session_with_param,
+			self.METHOD_AUTO_MATCHMAKE_WITH_PARAM_POSTPONE: self.request_decode_auto_matchmake_with_param_postpone,
+			self.METHOD_FIND_MATCHMAKE_SESSION_BY_GATHERING_ID_DETAIL: self.request_decode_find_matchmake_session_by_gathering_id_detail,
+			self.METHOD_BROWSE_MATCHMAKE_SESSION_NO_HOLDER: self.request_decode_browse_matchmake_session_no_holder,
+			self.METHOD_BROWSE_MATCHMAKE_SESSION_WITH_HOST_URLS_NO_HOLDER: self.request_decode_browse_matchmake_session_with_host_urls_no_holder,
+			self.METHOD_UPDATE_MATCHMAKE_SESSION_PART: self.request_decode_update_matchmake_session_part,
+			self.METHOD_REQUEST_MATCHMAKING: self.request_decode_request_matchmaking,
+			self.METHOD_WITHDRAW_MATCHMAKING: self.request_decode_withdraw_matchmaking,
+			self.METHOD_WITHDRAW_MATCHMAKING_ALL: self.request_decode_withdraw_matchmaking_all,
+			self.METHOD_FIND_MATCHMAKE_SESSION_BY_GATHERING_ID: self.request_decode_find_matchmake_session_by_gathering_id,
+			self.METHOD_FIND_MATCHMAKE_SESSION_BY_SINGLE_GATHERING_ID: self.request_decode_find_matchmake_session_by_single_gathering_id,
+			self.METHOD_FIND_MATCHMAKE_SESSION_BY_OWNER: self.request_decode_find_matchmake_session_by_owner,
+			self.METHOD_FIND_MATCHMAKE_SESSION_BY_PARTICIPANT: self.request_decode_find_matchmake_session_by_participant,
+			self.METHOD_BROWSE_MATCHMAKE_SESSION_NO_HOLDER_NO_RESULT_RANGE: self.request_decode_browse_matchmake_session_no_holder_no_result_range,
+			self.METHOD_BROWSE_MATCHMAKE_SESSION_WITH_HOST_URLS_NO_HOLDER_NO_RESULT_RANGE: self.request_decode_browse_matchmake_session_with_host_urls_no_holder_no_result_range,
+		}
+		self.response_decodes = {
+			self.METHOD_CLOSE_PARTICIPATION: self.response_decode_close_participation,
+			self.METHOD_OPEN_PARTICIPATION: self.response_decode_open_participation,
+			self.METHOD_AUTO_MATCHMAKE_POSTPONE: self.response_decode_auto_matchmake_postpone,
+			self.METHOD_BROWSE_MATCHMAKE_SESSION: self.response_decode_browse_matchmake_session,
+			self.METHOD_BROWSE_MATCHMAKE_SESSION_WITH_HOST_URLS: self.response_decode_browse_matchmake_session_with_host_urls,
+			self.METHOD_CREATE_MATCHMAKE_SESSION: self.response_decode_create_matchmake_session,
+			self.METHOD_JOIN_MATCHMAKE_SESSION: self.response_decode_join_matchmake_session,
+			self.METHOD_MODIFY_CURRENT_GAME_ATTRIBUTE: self.response_decode_modify_current_game_attribute,
+			self.METHOD_UPDATE_NOTIFICATION_DATA: self.response_decode_update_notification_data,
+			self.METHOD_GET_FRIEND_NOTIFICATION_DATA: self.response_decode_get_friend_notification_data,
+			self.METHOD_UPDATE_APPLICATION_BUFFER: self.response_decode_update_application_buffer,
+			self.METHOD_UPDATE_MATCHMAKE_SESSION_ATTRIBUTE: self.response_decode_update_matchmake_session_attribute,
+			self.METHOD_GET_FRIEND_NOTIFICATION_DATA_LIST: self.response_decode_get_friend_notification_data_list,
+			self.METHOD_UPDATE_MATCHMAKE_SESSION: self.response_decode_update_matchmake_session,
+			self.METHOD_AUTO_MATCHMAKE_WITH_SEARCH_CRITERIA_POSTPONE: self.response_decode_auto_matchmake_with_search_criteria_postpone,
+			self.METHOD_GET_PLAYING_SESSION: self.response_decode_get_playing_session,
+			self.METHOD_CREATE_COMMUNITY: self.response_decode_create_community,
+			self.METHOD_UPDATE_COMMUNITY: self.response_decode_update_community,
+			self.METHOD_JOIN_COMMUNITY: self.response_decode_join_community,
+			self.METHOD_FIND_COMMUNITY_BY_GATHERING_ID: self.response_decode_find_community_by_gathering_id,
+			self.METHOD_FIND_OFFICIAL_COMMUNITY: self.response_decode_find_official_community,
+			self.METHOD_FIND_COMMUNITY_BY_PARTICIPANT: self.response_decode_find_community_by_participant,
+			self.METHOD_UPDATE_PRIVACY_SETTING: self.response_decode_update_privacy_setting,
+			self.METHOD_GET_MY_BLOCK_LIST: self.response_decode_get_my_block_list,
+			self.METHOD_ADD_TO_BLOCK_LIST: self.response_decode_add_to_block_list,
+			self.METHOD_REMOVE_FROM_BLOCK_LIST: self.response_decode_remove_from_block_list,
+			self.METHOD_CLEAR_MY_BLOCK_LIST: self.response_decode_clear_my_block_list,
+			self.METHOD_REPORT_VIOLATION: self.response_decode_report_violation,
+			self.METHOD_IS_VIOLATION_USER: self.response_decode_is_violation_user,
+			self.METHOD_JOIN_MATCHMAKE_SESSION_EX: self.response_decode_join_matchmake_session_ex,
+			self.METHOD_GET_SIMPLE_PLAYING_SESSION: self.response_decode_get_simple_playing_session,
+			self.METHOD_GET_SIMPLE_COMMUNITY: self.response_decode_get_simple_community,
+			self.METHOD_AUTO_MATCHMAKE_WITH_GATHERING_ID_POSTPONE: self.response_decode_auto_matchmake_with_gathering_id_postpone,
+			self.METHOD_UPDATE_PROGRESS_SCORE: self.response_decode_update_progress_score,
+			self.METHOD_DEBUG_NOTIFY_EVENT: self.response_decode_debug_notify_event,
+			self.METHOD_GENERATE_MATCHMAKE_SESSION_SYSTEM_PASSWORD: self.response_decode_generate_matchmake_session_system_password,
+			self.METHOD_CLEAR_MATCHMAKE_SESSION_SYSTEM_PASSWORD: self.response_decode_clear_matchmake_session_system_password,
+			self.METHOD_CREATE_MATCHMAKE_SESSION_WITH_PARAM: self.response_decode_create_matchmake_session_with_param,
+			self.METHOD_JOIN_MATCHMAKE_SESSION_WITH_PARAM: self.response_decode_join_matchmake_session_with_param,
+			self.METHOD_AUTO_MATCHMAKE_WITH_PARAM_POSTPONE: self.response_decode_auto_matchmake_with_param_postpone,
+			self.METHOD_FIND_MATCHMAKE_SESSION_BY_GATHERING_ID_DETAIL: self.response_decode_find_matchmake_session_by_gathering_id_detail,
+			self.METHOD_BROWSE_MATCHMAKE_SESSION_NO_HOLDER: self.response_decode_browse_matchmake_session_no_holder,
+			self.METHOD_BROWSE_MATCHMAKE_SESSION_WITH_HOST_URLS_NO_HOLDER: self.response_decode_browse_matchmake_session_with_host_urls_no_holder,
+			self.METHOD_UPDATE_MATCHMAKE_SESSION_PART: self.response_decode_update_matchmake_session_part,
+			self.METHOD_REQUEST_MATCHMAKING: self.response_decode_request_matchmaking,
+			self.METHOD_WITHDRAW_MATCHMAKING: self.response_decode_withdraw_matchmaking,
+			self.METHOD_WITHDRAW_MATCHMAKING_ALL: self.response_decode_withdraw_matchmaking_all,
+			self.METHOD_FIND_MATCHMAKE_SESSION_BY_GATHERING_ID: self.response_decode_find_matchmake_session_by_gathering_id,
+			self.METHOD_FIND_MATCHMAKE_SESSION_BY_SINGLE_GATHERING_ID: self.response_decode_find_matchmake_session_by_single_gathering_id,
+			self.METHOD_FIND_MATCHMAKE_SESSION_BY_OWNER: self.response_decode_find_matchmake_session_by_owner,
+			self.METHOD_FIND_MATCHMAKE_SESSION_BY_PARTICIPANT: self.response_decode_find_matchmake_session_by_participant,
+			self.METHOD_BROWSE_MATCHMAKE_SESSION_NO_HOLDER_NO_RESULT_RANGE: self.response_decode_browse_matchmake_session_no_holder_no_result_range,
+			self.METHOD_BROWSE_MATCHMAKE_SESSION_WITH_HOST_URLS_NO_HOLDER_NO_RESULT_RANGE: self.response_decode_browse_matchmake_session_with_host_urls_no_holder_no_result_range,
+		}
+	
+	@staticmethod
+	def request_decode_close_participation(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_close_participation(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_open_participation(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_open_participation(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_auto_matchmake_postpone(input):
+		result = {}
+		
+		result["gathering"] = input.anydata()
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_auto_matchmake_postpone(input):
+		result = {}
+		
+		result["gathering"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_browse_matchmake_session(input):
+		result = {}
+		
+		result["search_criteria"] = input.extract(MatchmakeSessionSearchCriteria)
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_browse_matchmake_session(input):
+		result = {}
+		
+		result["gatherings"] = input.list(input.anydata)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_browse_matchmake_session_with_host_urls(input):
+		result = {}
+		
+		result["search_criteria"] = input.extract(MatchmakeSessionSearchCriteria)
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_browse_matchmake_session_with_host_urls(input):
+		result = {}
+		
+		result["gatherings"] = input.list(input.anydata)
+		result["urls"] = input.list(GatheringURLs)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_create_matchmake_session(input):
+		result = {}
+		
+		result["gathering"] = input.anydata()
+		result["description"] = input.string()
+		result["num_participants"] = input.u16()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_create_matchmake_session(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["session_key"] = input.buffer()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_join_matchmake_session(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_join_matchmake_session(input):
+		result = {}
+		
+		result["session_key"] = input.buffer()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_modify_current_game_attribute(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["attrib"] = input.u32()
+		result["value"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_modify_current_game_attribute(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_notification_data(input):
+		result = {}
+		
+		result["type"] = input.u32()
+		result["param1"] = input.pid()
+		result["param2"] = input.pid()
+		result["param3"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_notification_data(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_friend_notification_data(input):
+		result = {}
+		
+		result["type"] = input.s32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_friend_notification_data(input):
+		result = {}
+		
+		result["notifications"] = input.list(notification.NotificationEvent)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_application_buffer(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["buffer"] = input.buffer()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_application_buffer(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_matchmake_session_attribute(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["attribs"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_matchmake_session_attribute(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_friend_notification_data_list(input):
+		result = {}
+		
+		result["types"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_friend_notification_data_list(input):
+		result = {}
+		
+		result["notifications"] = input.list(notification.NotificationEvent)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_matchmake_session(input):
+		result = {}
+		
+		result["gathering"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_matchmake_session(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_auto_matchmake_with_search_criteria_postpone(input):
+		result = {}
+		
+		result["search_criteria"] = input.list(MatchmakeSessionSearchCriteria)
+		result["gathering"] = input.anydata()
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_auto_matchmake_with_search_criteria_postpone(input):
+		result = {}
+		
+		result["gathering"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_playing_session(input):
+		result = {}
+		
+		result["pids"] = input.list(input.pid)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_playing_session(input):
+		result = {}
+		
+		result["sessions"] = input.list(PlayingSession)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_create_community(input):
+		result = {}
+		
+		result["community"] = input.extract(PersistentGathering)
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_create_community(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_community(input):
+		result = {}
+		
+		result["community"] = input.extract(PersistentGathering)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_community(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_join_community(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["message"] = input.string()
+		result["password"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_join_community(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_community_by_gathering_id(input):
+		result = {}
+		
+		result["gids"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_community_by_gathering_id(input):
+		result = {}
+		
+		result["communities"] = input.list(PersistentGathering)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_official_community(input):
+		result = {}
+		
+		result["available_only"] = input.bool()
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_official_community(input):
+		result = {}
+		
+		result["communities"] = input.list(PersistentGathering)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_community_by_participant(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_community_by_participant(input):
+		result = {}
+		
+		result["communities"] = input.list(PersistentGathering)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_privacy_setting(input):
+		result = {}
+		
+		result["online_status"] = input.bool()
+		result["community_participation"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_privacy_setting(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_my_block_list(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_my_block_list(input):
+		result = {}
+		
+		result["pids"] = input.list(input.pid)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_add_to_block_list(input):
+		result = {}
+		
+		result["pids"] = input.list(input.pid)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_add_to_block_list(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_remove_from_block_list(input):
+		result = {}
+		
+		result["pids"] = input.list(input.pid)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_remove_from_block_list(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_clear_my_block_list(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_clear_my_block_list(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_report_violation(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		result["username"] = input.string()
+		result["violation_code"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_report_violation(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_is_violation_user(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_is_violation_user(input):
+		result = {}
+		
+		result["flag"] = input.bool()
+		result["score"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_join_matchmake_session_ex(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["gmessage"] = input.string()
+		result["ignore_block_list"] = input.bool()
+		result["num_participants"] = input.u16()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_join_matchmake_session_ex(input):
+		result = {}
+		
+		result["session_key"] = input.buffer()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_simple_playing_session(input):
+		result = {}
+		
+		result["pids"] = input.list(input.pid)
+		result["include_login_user"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_simple_playing_session(input):
+		result = {}
+		
+		result["session"] = input.list(SimplePlayingSession)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_simple_community(input):
+		result = {}
+		
+		result["gids"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_simple_community(input):
+		result = {}
+		
+		result["communities"] = input.list(SimpleCommunity)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_auto_matchmake_with_gathering_id_postpone(input):
+		result = {}
+		
+		result["gids"] = input.list(input.u32)
+		result["gathering"] = input.anydata()
+		result["message"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_auto_matchmake_with_gathering_id_postpone(input):
+		result = {}
+		
+		result["joined_gathering"] = input.anydata()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_progress_score(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		result["score"] = input.u8()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_progress_score(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_debug_notify_event(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		result["main_type"] = input.u32()
+		result["sub_type"] = input.u32()
+		result["param1"] = input.u64()
+		result["param2"] = input.u64()
+		result["param3"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_debug_notify_event(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_generate_matchmake_session_system_password(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_generate_matchmake_session_system_password(input):
+		result = {}
+		
+		result["password"] = input.string()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_clear_matchmake_session_system_password(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_clear_matchmake_session_system_password(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_create_matchmake_session_with_param(input):
+		result = {}
+		
+		result["param"] = input.extract(CreateMatchmakeSessionParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_create_matchmake_session_with_param(input):
+		result = {}
+		
+		result["session"] = input.extract(MatchmakeSession)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_join_matchmake_session_with_param(input):
+		result = {}
+		
+		result["param"] = input.extract(JoinMatchmakeSessionParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_join_matchmake_session_with_param(input):
+		result = {}
+		
+		result["session"] = input.extract(MatchmakeSession)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_auto_matchmake_with_param_postpone(input):
+		result = {}
+		
+		result["param"] = input.extract(AutoMatchmakeParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_auto_matchmake_with_param_postpone(input):
+		result = {}
+		
+		result["session"] = input.extract(MatchmakeSession)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_matchmake_session_by_gathering_id_detail(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_matchmake_session_by_gathering_id_detail(input):
+		result = {}
+		
+		result["session"] = input.extract(MatchmakeSession)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_browse_matchmake_session_no_holder(input):
+		result = {}
+		
+		result["search_criteria"] = input.extract(MatchmakeSessionSearchCriteria)
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_browse_matchmake_session_no_holder(input):
+		result = {}
+		
+		result["sessions"] = input.list(MatchmakeSession)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_browse_matchmake_session_with_host_urls_no_holder(input):
+		result = {}
+		
+		result["search_criteria"] = input.extract(MatchmakeSessionSearchCriteria)
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_browse_matchmake_session_with_host_urls_no_holder(input):
+		result = {}
+		
+		result["sessions"] = input.list(MatchmakeSession)
+		result["urls"] = input.list(GatheringURLs)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_matchmake_session_part(input):
+		result = {}
+		
+		result["param"] = input.extract(UpdateMatchmakeSessionParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_matchmake_session_part(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_request_matchmaking(input):
+		result = {}
+		
+		result["param"] = input.extract(AutoMatchmakeParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_request_matchmaking(input):
+		result = {}
+		
+		result["request_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_withdraw_matchmaking(input):
+		result = {}
+		
+		result["request_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_withdraw_matchmaking(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_withdraw_matchmaking_all(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_withdraw_matchmaking_all(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_matchmake_session_by_gathering_id(input):
+		result = {}
+		
+		result["gids"] = input.list(input.u32)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_matchmake_session_by_gathering_id(input):
+		result = {}
+		
+		result["sessions"] = input.list(MatchmakeSession)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_matchmake_session_by_single_gathering_id(input):
+		result = {}
+		
+		result["gid"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_matchmake_session_by_single_gathering_id(input):
+		result = {}
+		
+		result["session"] = input.extract(MatchmakeSession)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_matchmake_session_by_owner(input):
+		result = {}
+		
+		result["pid"] = input.pid()
+		result["range"] = input.extract(common.ResultRange)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_matchmake_session_by_owner(input):
+		result = {}
+		
+		result["sessions"] = input.list(MatchmakeSession)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_find_matchmake_session_by_participant(input):
+		result = {}
+		
+		result["param"] = input.extract(FindMatchmakeSessionByParticipantParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_find_matchmake_session_by_participant(input):
+		result = {}
+		
+		result["result"] = input.list(FindMatchmakeSessionByParticipantResult)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_browse_matchmake_session_no_holder_no_result_range(input):
+		result = {}
+		
+		result["search_criteria"] = input.extract(MatchmakeSessionSearchCriteria)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_browse_matchmake_session_no_holder_no_result_range(input):
+		result = {}
+		
+		result["sessions"] = input.list(MatchmakeSession)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_browse_matchmake_session_with_host_urls_no_holder_no_result_range(input):
+		result = {}
+		
+		result["search_criteria"] = input.extract(MatchmakeSessionSearchCriteria)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_browse_matchmake_session_with_host_urls_no_holder_no_result_range(input):
+		result = {}
+		
+		result["sessions"] = input.list(MatchmakeSession)
+		result["urls"] = input.list(GatheringURLs)
+		
+		return result
+	
 
 
 class MatchmakeRefereeProtocol:
@@ -1039,6 +2963,242 @@ class MatchmakeRefereeProtocol:
 	METHOD_RESET_STATS = 13
 	
 	PROTOCOL_ID = 0x78
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_START_ROUND: self.request_decode_start_round,
+			self.METHOD_GET_START_ROUND_PARAM: self.request_decode_get_start_round_param,
+			self.METHOD_END_ROUND: self.request_decode_end_round,
+			self.METHOD_END_ROUND_WITHOUT_REPORT: self.request_decode_end_round_without_report,
+			self.METHOD_GET_ROUND_PARTICIPANTS: self.request_decode_get_round_participants,
+			self.METHOD_GET_NOT_SUMMARIZED_ROUND: self.request_decode_get_not_summarized_round,
+			self.METHOD_GET_ROUND: self.request_decode_get_round,
+			self.METHOD_GET_STATS_PRIMARY: self.request_decode_get_stats_primary,
+			self.METHOD_GET_STATS_PRIMARIES: self.request_decode_get_stats_primaries,
+			self.METHOD_GET_STATS_ALL: self.request_decode_get_stats_all,
+			self.METHOD_CREATE_STATS: self.request_decode_create_stats,
+			self.METHOD_GET_OR_CREATE_STATS: self.request_decode_get_or_create_stats,
+			self.METHOD_RESET_STATS: self.request_decode_reset_stats,
+		}
+		self.response_decodes = {
+			self.METHOD_START_ROUND: self.response_decode_start_round,
+			self.METHOD_GET_START_ROUND_PARAM: self.response_decode_get_start_round_param,
+			self.METHOD_END_ROUND: self.response_decode_end_round,
+			self.METHOD_END_ROUND_WITHOUT_REPORT: self.response_decode_end_round_without_report,
+			self.METHOD_GET_ROUND_PARTICIPANTS: self.response_decode_get_round_participants,
+			self.METHOD_GET_NOT_SUMMARIZED_ROUND: self.response_decode_get_not_summarized_round,
+			self.METHOD_GET_ROUND: self.response_decode_get_round,
+			self.METHOD_GET_STATS_PRIMARY: self.response_decode_get_stats_primary,
+			self.METHOD_GET_STATS_PRIMARIES: self.response_decode_get_stats_primaries,
+			self.METHOD_GET_STATS_ALL: self.response_decode_get_stats_all,
+			self.METHOD_CREATE_STATS: self.response_decode_create_stats,
+			self.METHOD_GET_OR_CREATE_STATS: self.response_decode_get_or_create_stats,
+			self.METHOD_RESET_STATS: self.response_decode_reset_stats,
+		}
+	
+	@staticmethod
+	def request_decode_start_round(input):
+		result = {}
+		
+		result["param"] = input.extract(MatchmakeRefereeStartRoundParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_start_round(input):
+		result = {}
+		
+		result["round_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_start_round_param(input):
+		result = {}
+		
+		result["round_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_start_round_param(input):
+		result = {}
+		
+		result["param"] = input.extract(MatchmakeRefereeStartRoundParam)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_end_round(input):
+		result = {}
+		
+		result["param"] = input.extract(MatchmakeRefereeEndRoundParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_end_round(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_end_round_without_report(input):
+		result = {}
+		
+		result["round_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_end_round_without_report(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_round_participants(input):
+		result = {}
+		
+		result["round_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_round_participants(input):
+		result = {}
+		
+		result["pids"] = input.list(input.pid)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_not_summarized_round(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_not_summarized_round(input):
+		result = {}
+		
+		result["rounds"] = input.list(MatchmakeRefereeRound)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_round(input):
+		result = {}
+		
+		result["round"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_round(input):
+		result = {}
+		
+		result["round"] = input.extract(MatchmakeRefereeRound)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_stats_primary(input):
+		result = {}
+		
+		result["target"] = input.extract(MatchmakeRefereeStatsTarget)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_stats_primary(input):
+		result = {}
+		
+		result["stats"] = input.extract(MatchmakeRefereeStats)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_stats_primaries(input):
+		result = {}
+		
+		result["targets"] = input.list(MatchmakeRefereeStatsTarget)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_stats_primaries(input):
+		result = {}
+		
+		result["stats"] = input.list(MatchmakeRefereeStats)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_stats_all(input):
+		result = {}
+		
+		result["target"] = input.extract(MatchmakeRefereeStatsTarget)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_stats_all(input):
+		result = {}
+		
+		result["stats"] = input.list(MatchmakeRefereeStats)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_create_stats(input):
+		result = {}
+		
+		result["param"] = input.extract(MatchmakeRefereeStatsInitParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_create_stats(input):
+		result = {}
+		
+		result["stats"] = input.extract(MatchmakeRefereeStats)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_or_create_stats(input):
+		result = {}
+		
+		result["param"] = input.extract(MatchmakeRefereeStatsInitParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_or_create_stats(input):
+		result = {}
+		
+		result["stats"] = input.extract(MatchmakeRefereeStats)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_reset_stats(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_reset_stats(input):
+		result = {}
+		
+		
+		return result
+	
 
 
 class MatchMakingClient(MatchMakingProtocol):

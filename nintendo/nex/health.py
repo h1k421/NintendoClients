@@ -14,6 +14,80 @@ class HealthProtocol:
 	METHOD_FIX_SANITY_ERRORS = 4
 	
 	PROTOCOL_ID = 0x12
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_PING_DAEMON: self.request_decode_ping_daemon,
+			self.METHOD_PING_DATABASE: self.request_decode_ping_database,
+			self.METHOD_RUN_SANITY_CHECK: self.request_decode_run_sanity_check,
+			self.METHOD_FIX_SANITY_ERRORS: self.request_decode_fix_sanity_errors,
+		}
+		self.response_decodes = {
+			self.METHOD_PING_DAEMON: self.response_decode_ping_daemon,
+			self.METHOD_PING_DATABASE: self.response_decode_ping_database,
+			self.METHOD_RUN_SANITY_CHECK: self.response_decode_run_sanity_check,
+			self.METHOD_FIX_SANITY_ERRORS: self.response_decode_fix_sanity_errors,
+		}
+	
+	@staticmethod
+	def request_decode_ping_daemon(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_ping_daemon(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_ping_database(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_ping_database(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_run_sanity_check(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_run_sanity_check(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_fix_sanity_errors(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_fix_sanity_errors(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
 
 
 class HealthClient(HealthProtocol):

@@ -2899,6 +2899,1438 @@ class DataStoreProtocolSMM2:
 	METHOD_SEARCH_WORLD_MAP_PICK_UP = 162
 	
 	PROTOCOL_ID = 0x73
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_PREPARE_GET_OBJECT_V1: self.request_decode_prepare_get_object_v1,
+			self.METHOD_PREPARE_POST_OBJECT_V1: self.request_decode_prepare_post_object_v1,
+			self.METHOD_COMPLETE_POST_OBJECT_V1: self.request_decode_complete_post_object_v1,
+			self.METHOD_DELETE_OBJECT: self.request_decode_delete_object,
+			self.METHOD_DELETE_OBJECTS: self.request_decode_delete_objects,
+			self.METHOD_CHANGE_META_V1: self.request_decode_change_meta_v1,
+			self.METHOD_CHANGE_METAS_V1: self.request_decode_change_metas_v1,
+			self.METHOD_GET_META: self.request_decode_get_meta,
+			self.METHOD_GET_METAS: self.request_decode_get_metas,
+			self.METHOD_PREPARE_UPDATE_OBJECT: self.request_decode_prepare_update_object,
+			self.METHOD_COMPLETE_UPDATE_OBJECT: self.request_decode_complete_update_object,
+			self.METHOD_SEARCH_OBJECT: self.request_decode_search_object,
+			self.METHOD_GET_NOTIFICATION_URL: self.request_decode_get_notification_url,
+			self.METHOD_GET_NEW_ARRIVED_NOTIFICATIONS_V1: self.request_decode_get_new_arrived_notifications_v1,
+			self.METHOD_RATE_OBJECT: self.request_decode_rate_object,
+			self.METHOD_GET_RATING: self.request_decode_get_rating,
+			self.METHOD_GET_RATINGS: self.request_decode_get_ratings,
+			self.METHOD_RESET_RATING: self.request_decode_reset_rating,
+			self.METHOD_RESET_RATINGS: self.request_decode_reset_ratings,
+			self.METHOD_GET_SPECIFIC_META_V1: self.request_decode_get_specific_meta_v1,
+			self.METHOD_POST_META_BINARY: self.request_decode_post_meta_binary,
+			self.METHOD_TOUCH_OBJECT: self.request_decode_touch_object,
+			self.METHOD_GET_RATING_WITH_LOG: self.request_decode_get_rating_with_log,
+			self.METHOD_PREPARE_POST_OBJECT: self.request_decode_prepare_post_object,
+			self.METHOD_PREPARE_GET_OBJECT: self.request_decode_prepare_get_object,
+			self.METHOD_COMPLETE_POST_OBJECT: self.request_decode_complete_post_object,
+			self.METHOD_GET_NEW_ARRIVED_NOTIFICATIONS: self.request_decode_get_new_arrived_notifications,
+			self.METHOD_GET_SPECIFIC_META: self.request_decode_get_specific_meta,
+			self.METHOD_GET_PERSISTENCE_INFO: self.request_decode_get_persistence_info,
+			self.METHOD_GET_PERSISTENCE_INFOS: self.request_decode_get_persistence_infos,
+			self.METHOD_PERPETUATE_OBJECT: self.request_decode_perpetuate_object,
+			self.METHOD_UNPERPETUATE_OBJECT: self.request_decode_unperpetuate_object,
+			self.METHOD_PREPARE_GET_OBJECT_OR_META_BINARY: self.request_decode_prepare_get_object_or_meta_binary,
+			self.METHOD_GET_PASSWORD_INFO: self.request_decode_get_password_info,
+			self.METHOD_GET_PASSWORD_INFOS: self.request_decode_get_password_infos,
+			self.METHOD_GET_METAS_MULTIPLE_PARAM: self.request_decode_get_metas_multiple_param,
+			self.METHOD_COMPLETE_POST_OBJECTS: self.request_decode_complete_post_objects,
+			self.METHOD_CHANGE_META: self.request_decode_change_meta,
+			self.METHOD_CHANGE_METAS: self.request_decode_change_metas,
+			self.METHOD_RATE_OBJECTS: self.request_decode_rate_objects,
+			self.METHOD_POST_META_BINARY_WITH_DATA_ID: self.request_decode_post_meta_binary_with_data_id,
+			self.METHOD_POST_META_BINARIES_WITH_DATA_ID: self.request_decode_post_meta_binaries_with_data_id,
+			self.METHOD_RATE_OBJECT_WITH_POSTING: self.request_decode_rate_object_with_posting,
+			self.METHOD_RATE_OBJECTS_WITH_POSTING: self.request_decode_rate_objects_with_posting,
+			self.METHOD_GET_OBJECT_INFOS: self.request_decode_get_object_infos,
+			self.METHOD_SEARCH_OBJECT_LIGHT: self.request_decode_search_object_light,
+			self.METHOD_REGISTER_USER: self.request_decode_register_user,
+			self.METHOD_GET_USERS: self.request_decode_get_users,
+			self.METHOD_SYNC_USER_PROFILE: self.request_decode_sync_user_profile,
+			self.METHOD_SEARCH_USERS_USER_POINT: self.request_decode_search_users_user_point,
+			self.METHOD_SEARCH_USERS_PLAYED_COURSE: self.request_decode_search_users_played_course,
+			self.METHOD_SEARCH_USERS_CLEARED_COURSE: self.request_decode_search_users_cleared_course,
+			self.METHOD_SEARCH_USERS_POSITIVE_RATED_COURSE: self.request_decode_search_users_positive_rated_course,
+			self.METHOD_UPDATE_LAST_LOGIN_TIME: self.request_decode_update_last_login_time,
+			self.METHOD_GET_USERNAME_NG_TYPE: self.request_decode_get_username_ng_type,
+			self.METHOD_GET_COURSES: self.request_decode_get_courses,
+			self.METHOD_SEARCH_COURSES_POINT_RANKING: self.request_decode_search_courses_point_ranking,
+			self.METHOD_SEARCH_COURSES_LATEST: self.request_decode_search_courses_latest,
+			self.METHOD_SEARCH_COURSES_POSTED_BY: self.request_decode_search_courses_posted_by,
+			self.METHOD_SEARCH_COURSES_POSITIVE_RATED_BY: self.request_decode_search_courses_positive_rated_by,
+			self.METHOD_SEARCH_COURSES_PLAYED_BY: self.request_decode_search_courses_played_by,
+			self.METHOD_SEARCH_COURSES_ENDLESS_MODE: self.request_decode_search_courses_endless_mode,
+			self.METHOD_SEARCH_COURSES_FIRST_CLEAR: self.request_decode_search_courses_first_clear,
+			self.METHOD_SEARCH_COURSES_BEST_TIME: self.request_decode_search_courses_best_time,
+			self.METHOD_GET_COURSES_EVENT: self.request_decode_get_courses_event,
+			self.METHOD_SEARCH_COURSES_EVENT: self.request_decode_search_courses_event,
+			self.METHOD_SEARCH_COMMENTS_IN_ORDER: self.request_decode_search_comments_in_order,
+			self.METHOD_SEARCH_COMMENTS: self.request_decode_search_comments,
+			self.METHOD_GET_DEATH_POSITIONS: self.request_decode_get_death_positions,
+			self.METHOD_GET_USER_OR_COURSE: self.request_decode_get_user_or_course,
+			self.METHOD_GET_REQ_GET_INFO_HEADERS_INFO: self.request_decode_get_req_get_info_headers_info,
+			self.METHOD_GET_EVENT_COURSE_STAMP: self.request_decode_get_event_course_stamp,
+			self.METHOD_GET_EVENT_COURSE_STATUS: self.request_decode_get_event_course_status,
+			self.METHOD_GET_EVENT_COURSE_HISTOGRAM: self.request_decode_get_event_course_histogram,
+			self.METHOD_GET_EVENT_COURSE_GHOST: self.request_decode_get_event_course_ghost,
+			self.METHOD_GET_WORLD_MAP: self.request_decode_get_world_map,
+			self.METHOD_SEARCH_WORLD_MAP_PICK_UP: self.request_decode_search_world_map_pick_up,
+		}
+		self.response_decodes = {
+			self.METHOD_PREPARE_GET_OBJECT_V1: self.response_decode_prepare_get_object_v1,
+			self.METHOD_PREPARE_POST_OBJECT_V1: self.response_decode_prepare_post_object_v1,
+			self.METHOD_COMPLETE_POST_OBJECT_V1: self.response_decode_complete_post_object_v1,
+			self.METHOD_DELETE_OBJECT: self.response_decode_delete_object,
+			self.METHOD_DELETE_OBJECTS: self.response_decode_delete_objects,
+			self.METHOD_CHANGE_META_V1: self.response_decode_change_meta_v1,
+			self.METHOD_CHANGE_METAS_V1: self.response_decode_change_metas_v1,
+			self.METHOD_GET_META: self.response_decode_get_meta,
+			self.METHOD_GET_METAS: self.response_decode_get_metas,
+			self.METHOD_PREPARE_UPDATE_OBJECT: self.response_decode_prepare_update_object,
+			self.METHOD_COMPLETE_UPDATE_OBJECT: self.response_decode_complete_update_object,
+			self.METHOD_SEARCH_OBJECT: self.response_decode_search_object,
+			self.METHOD_GET_NOTIFICATION_URL: self.response_decode_get_notification_url,
+			self.METHOD_GET_NEW_ARRIVED_NOTIFICATIONS_V1: self.response_decode_get_new_arrived_notifications_v1,
+			self.METHOD_RATE_OBJECT: self.response_decode_rate_object,
+			self.METHOD_GET_RATING: self.response_decode_get_rating,
+			self.METHOD_GET_RATINGS: self.response_decode_get_ratings,
+			self.METHOD_RESET_RATING: self.response_decode_reset_rating,
+			self.METHOD_RESET_RATINGS: self.response_decode_reset_ratings,
+			self.METHOD_GET_SPECIFIC_META_V1: self.response_decode_get_specific_meta_v1,
+			self.METHOD_POST_META_BINARY: self.response_decode_post_meta_binary,
+			self.METHOD_TOUCH_OBJECT: self.response_decode_touch_object,
+			self.METHOD_GET_RATING_WITH_LOG: self.response_decode_get_rating_with_log,
+			self.METHOD_PREPARE_POST_OBJECT: self.response_decode_prepare_post_object,
+			self.METHOD_PREPARE_GET_OBJECT: self.response_decode_prepare_get_object,
+			self.METHOD_COMPLETE_POST_OBJECT: self.response_decode_complete_post_object,
+			self.METHOD_GET_NEW_ARRIVED_NOTIFICATIONS: self.response_decode_get_new_arrived_notifications,
+			self.METHOD_GET_SPECIFIC_META: self.response_decode_get_specific_meta,
+			self.METHOD_GET_PERSISTENCE_INFO: self.response_decode_get_persistence_info,
+			self.METHOD_GET_PERSISTENCE_INFOS: self.response_decode_get_persistence_infos,
+			self.METHOD_PERPETUATE_OBJECT: self.response_decode_perpetuate_object,
+			self.METHOD_UNPERPETUATE_OBJECT: self.response_decode_unperpetuate_object,
+			self.METHOD_PREPARE_GET_OBJECT_OR_META_BINARY: self.response_decode_prepare_get_object_or_meta_binary,
+			self.METHOD_GET_PASSWORD_INFO: self.response_decode_get_password_info,
+			self.METHOD_GET_PASSWORD_INFOS: self.response_decode_get_password_infos,
+			self.METHOD_GET_METAS_MULTIPLE_PARAM: self.response_decode_get_metas_multiple_param,
+			self.METHOD_COMPLETE_POST_OBJECTS: self.response_decode_complete_post_objects,
+			self.METHOD_CHANGE_META: self.response_decode_change_meta,
+			self.METHOD_CHANGE_METAS: self.response_decode_change_metas,
+			self.METHOD_RATE_OBJECTS: self.response_decode_rate_objects,
+			self.METHOD_POST_META_BINARY_WITH_DATA_ID: self.response_decode_post_meta_binary_with_data_id,
+			self.METHOD_POST_META_BINARIES_WITH_DATA_ID: self.response_decode_post_meta_binaries_with_data_id,
+			self.METHOD_RATE_OBJECT_WITH_POSTING: self.response_decode_rate_object_with_posting,
+			self.METHOD_RATE_OBJECTS_WITH_POSTING: self.response_decode_rate_objects_with_posting,
+			self.METHOD_GET_OBJECT_INFOS: self.response_decode_get_object_infos,
+			self.METHOD_SEARCH_OBJECT_LIGHT: self.response_decode_search_object_light,
+			self.METHOD_REGISTER_USER: self.response_decode_register_user,
+			self.METHOD_GET_USERS: self.response_decode_get_users,
+			self.METHOD_SYNC_USER_PROFILE: self.response_decode_sync_user_profile,
+			self.METHOD_SEARCH_USERS_USER_POINT: self.response_decode_search_users_user_point,
+			self.METHOD_SEARCH_USERS_PLAYED_COURSE: self.response_decode_search_users_played_course,
+			self.METHOD_SEARCH_USERS_CLEARED_COURSE: self.response_decode_search_users_cleared_course,
+			self.METHOD_SEARCH_USERS_POSITIVE_RATED_COURSE: self.response_decode_search_users_positive_rated_course,
+			self.METHOD_UPDATE_LAST_LOGIN_TIME: self.response_decode_update_last_login_time,
+			self.METHOD_GET_USERNAME_NG_TYPE: self.response_decode_get_username_ng_type,
+			self.METHOD_GET_COURSES: self.response_decode_get_courses,
+			self.METHOD_SEARCH_COURSES_POINT_RANKING: self.response_decode_search_courses_point_ranking,
+			self.METHOD_SEARCH_COURSES_LATEST: self.response_decode_search_courses_latest,
+			self.METHOD_SEARCH_COURSES_POSTED_BY: self.response_decode_search_courses_posted_by,
+			self.METHOD_SEARCH_COURSES_POSITIVE_RATED_BY: self.response_decode_search_courses_positive_rated_by,
+			self.METHOD_SEARCH_COURSES_PLAYED_BY: self.response_decode_search_courses_played_by,
+			self.METHOD_SEARCH_COURSES_ENDLESS_MODE: self.response_decode_search_courses_endless_mode,
+			self.METHOD_SEARCH_COURSES_FIRST_CLEAR: self.response_decode_search_courses_first_clear,
+			self.METHOD_SEARCH_COURSES_BEST_TIME: self.response_decode_search_courses_best_time,
+			self.METHOD_GET_COURSES_EVENT: self.response_decode_get_courses_event,
+			self.METHOD_SEARCH_COURSES_EVENT: self.response_decode_search_courses_event,
+			self.METHOD_SEARCH_COMMENTS_IN_ORDER: self.response_decode_search_comments_in_order,
+			self.METHOD_SEARCH_COMMENTS: self.response_decode_search_comments,
+			self.METHOD_GET_DEATH_POSITIONS: self.response_decode_get_death_positions,
+			self.METHOD_GET_USER_OR_COURSE: self.response_decode_get_user_or_course,
+			self.METHOD_GET_REQ_GET_INFO_HEADERS_INFO: self.response_decode_get_req_get_info_headers_info,
+			self.METHOD_GET_EVENT_COURSE_STAMP: self.response_decode_get_event_course_stamp,
+			self.METHOD_GET_EVENT_COURSE_STATUS: self.response_decode_get_event_course_status,
+			self.METHOD_GET_EVENT_COURSE_HISTOGRAM: self.response_decode_get_event_course_histogram,
+			self.METHOD_GET_EVENT_COURSE_GHOST: self.response_decode_get_event_course_ghost,
+			self.METHOD_GET_WORLD_MAP: self.response_decode_get_world_map,
+			self.METHOD_SEARCH_WORLD_MAP_PICK_UP: self.response_decode_search_world_map_pick_up,
+		}
+	
+	@staticmethod
+	def request_decode_prepare_get_object_v1(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStorePrepareGetParamV1)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_prepare_get_object_v1(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreReqGetInfoV1)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_prepare_post_object_v1(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStorePreparePostParamV1)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_prepare_post_object_v1(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreReqPostInfoV1)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_complete_post_object_v1(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreCompletePostParamV1)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_complete_post_object_v1(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreDeleteParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_object(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_delete_objects(input):
+		result = {}
+		
+		result["param"] = input.list(DataStoreDeleteParam)
+		result["transactional"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_delete_objects(input):
+		result = {}
+		
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_change_meta_v1(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreChangeMetaParamV1)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_change_meta_v1(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_change_metas_v1(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		result["param"] = input.list(DataStoreChangeMetaParamV1)
+		result["transactional"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_change_metas_v1(input):
+		result = {}
+		
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_meta(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreGetMetaParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_meta(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreMetaInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_metas(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		result["param"] = input.extract(DataStoreGetMetaParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_metas(input):
+		result = {}
+		
+		result["info"] = input.list(DataStoreMetaInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_prepare_update_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStorePrepareUpdateParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_prepare_update_object(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreReqUpdateInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_complete_update_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreCompleteUpdateParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_complete_update_object(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreSearchParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_object(input):
+		result = {}
+		
+		result["result"] = input.extract(DataStoreSearchResult)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_notification_url(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreGetNotificationUrlParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_notification_url(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreReqGetNotificationUrlInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_new_arrived_notifications_v1(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreGetNewArrivedNotificationsParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_new_arrived_notifications_v1(input):
+		result = {}
+		
+		result["result"] = input.list(DataStoreNotificationV1)
+		result["has_next"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_rate_object(input):
+		result = {}
+		
+		result["target"] = input.extract(DataStoreRatingTarget)
+		result["param"] = input.extract(DataStoreRateObjectParam)
+		result["fetch_ratings"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_rate_object(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreRatingInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_rating(input):
+		result = {}
+		
+		result["target"] = input.extract(DataStoreRatingTarget)
+		result["access_password"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_rating(input):
+		result = {}
+		
+		result["rating"] = input.extract(DataStoreRatingInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_ratings(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		result["access_password"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_ratings(input):
+		result = {}
+		
+		result["ratings"] = input.list(lambda: input.list(DataStoreRatingInfoWithSlot))
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_reset_rating(input):
+		result = {}
+		
+		result["target"] = input.extract(DataStoreRatingTarget)
+		result["update_password"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_reset_rating(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_reset_ratings(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		result["transactional"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_reset_ratings(input):
+		result = {}
+		
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_specific_meta_v1(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreGetSpecificMetaParamV1)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_specific_meta_v1(input):
+		result = {}
+		
+		result["infos"] = input.list(DataStoreSpecificMetaInfoV1)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_post_meta_binary(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStorePreparePostParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_post_meta_binary(input):
+		result = {}
+		
+		result["data_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_touch_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreTouchObjectParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_touch_object(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_rating_with_log(input):
+		result = {}
+		
+		result["target"] = input.extract(DataStoreRatingTarget)
+		result["access_password"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_rating_with_log(input):
+		result = {}
+		
+		result["rating"] = input.extract(DataStoreRatingInfo)
+		result["log"] = input.extract(DataStoreRatingLog)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_prepare_post_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStorePreparePostParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_prepare_post_object(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreReqPostInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_prepare_get_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStorePrepareGetParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_prepare_get_object(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreReqGetInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_complete_post_object(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreCompletePostParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_complete_post_object(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_new_arrived_notifications(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreGetNewArrivedNotificationsParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_new_arrived_notifications(input):
+		result = {}
+		
+		result["result"] = input.list(DataStoreNotification)
+		result["has_next"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_specific_meta(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreGetSpecificMetaParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_specific_meta(input):
+		result = {}
+		
+		result["infos"] = input.list(DataStoreSpecificMetaInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_persistence_info(input):
+		result = {}
+		
+		result["owner_id"] = input.pid()
+		result["slot_id"] = input.u16()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_persistence_info(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStorePersistenceInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_persistence_infos(input):
+		result = {}
+		
+		result["owner_id"] = input.pid()
+		result["slot_ids"] = input.list(input.u16)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_persistence_infos(input):
+		result = {}
+		
+		result["infos"] = input.list(DataStorePersistenceInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_perpetuate_object(input):
+		result = {}
+		
+		result["persistence_slot_id"] = input.u16()
+		result["data_id"] = input.u64()
+		result["delete_last_object"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_perpetuate_object(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_unperpetuate_object(input):
+		result = {}
+		
+		result["persistence_slot_id"] = input.u16()
+		result["delete_last_object"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_unperpetuate_object(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_prepare_get_object_or_meta_binary(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStorePrepareGetParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_prepare_get_object_or_meta_binary(input):
+		result = {}
+		
+		result["get_info"] = input.extract(DataStoreReqGetInfo)
+		result["additional_meta"] = input.extract(DataStoreReqGetAdditionalMeta)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_password_info(input):
+		result = {}
+		
+		result["data_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_password_info(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStorePasswordInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_password_infos(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_password_infos(input):
+		result = {}
+		
+		result["infos"] = input.list(DataStorePasswordInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_metas_multiple_param(input):
+		result = {}
+		
+		result["params"] = input.list(DataStoreGetMetaParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_metas_multiple_param(input):
+		result = {}
+		
+		result["infos"] = input.list(DataStoreMetaInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_complete_post_objects(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_complete_post_objects(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_change_meta(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreChangeMetaParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_change_meta(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_change_metas(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		result["param"] = input.list(DataStoreChangeMetaParam)
+		result["transactional"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_change_metas(input):
+		result = {}
+		
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_rate_objects(input):
+		result = {}
+		
+		result["targets"] = input.list(DataStoreRatingTarget)
+		result["param"] = input.list(DataStoreRateObjectParam)
+		result["transactional"] = input.bool()
+		result["fetch_ratings"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_rate_objects(input):
+		result = {}
+		
+		result["infos"] = input.list(DataStoreRatingInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_post_meta_binary_with_data_id(input):
+		result = {}
+		
+		result["data_id"] = input.u64()
+		result["param"] = input.extract(DataStorePreparePostParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_post_meta_binary_with_data_id(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_post_meta_binaries_with_data_id(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		result["param"] = input.list(DataStorePreparePostParam)
+		result["transactional"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_post_meta_binaries_with_data_id(input):
+		result = {}
+		
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_rate_object_with_posting(input):
+		result = {}
+		
+		result["target"] = input.extract(DataStoreRatingTarget)
+		result["rate_param"] = input.extract(DataStoreRateObjectParam)
+		result["post_param"] = input.extract(DataStorePreparePostParam)
+		result["fetch_ratings"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_rate_object_with_posting(input):
+		result = {}
+		
+		result["info"] = input.extract(DataStoreRatingInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_rate_objects_with_posting(input):
+		result = {}
+		
+		result["targets"] = input.list(DataStoreRatingTarget)
+		result["rate_param"] = input.list(DataStoreRateObjectParam)
+		result["post_param"] = input.list(DataStorePreparePostParam)
+		result["transactional"] = input.bool()
+		result["fetch_ratings"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_rate_objects_with_posting(input):
+		result = {}
+		
+		result["ratings"] = input.list(DataStoreRatingInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_object_infos(input):
+		result = {}
+		
+		result["data_ids"] = input.list(input.u64)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_object_infos(input):
+		result = {}
+		
+		result["infos"] = input.list(DataStoreReqGetInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_object_light(input):
+		result = {}
+		
+		result["param"] = input.extract(DataStoreSearchParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_object_light(input):
+		result = {}
+		
+		result["result"] = input.extract(DataStoreSearchResult)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_register_user(input):
+		result = {}
+		
+		result["param"] = input.extract(RegisterUserParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_register_user(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_users(input):
+		result = {}
+		
+		result["param"] = input.extract(GetUsersParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_users(input):
+		result = {}
+		
+		result["users"] = input.list(UserInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_sync_user_profile(input):
+		result = {}
+		
+		result["param"] = input.extract(SyncUserProfileParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_sync_user_profile(input):
+		result = {}
+		
+		result["result"] = input.extract(SyncUserProfileResult)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_users_user_point(input):
+		result = {}
+		
+		result["param"] = input.extract(SearchUsersUserPointParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_users_user_point(input):
+		result = {}
+		
+		result["users"] = input.list(UserInfo)
+		result["ranks"] = input.list(input.u32)
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_users_played_course(input):
+		result = {}
+		
+		result["param"] = input.extract(SearchUsersPlayedCourseParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_users_played_course(input):
+		result = {}
+		
+		result["users"] = input.list(UserInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_users_cleared_course(input):
+		result = {}
+		
+		result["param"] = input.extract(SearchUsersClearedCourseParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_users_cleared_course(input):
+		result = {}
+		
+		result["users"] = input.list(UserInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_users_positive_rated_course(input):
+		result = {}
+		
+		result["param"] = input.extract(SearchUsersPositiveRatedCourseParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_users_positive_rated_course(input):
+		result = {}
+		
+		result["users"] = input.list(UserInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_update_last_login_time(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_update_last_login_time(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_username_ng_type(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_username_ng_type(input):
+		result = {}
+		
+		result["unk"] = input.u8()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_courses(input):
+		result = {}
+		
+		result["param"] = input.extract(GetCoursesParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_courses(input):
+		result = {}
+		
+		result["courses"] = input.list(CourseInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_courses_point_ranking(input):
+		result = {}
+		
+		result["param"] = input.extract(SearchCoursesPointRankingParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_courses_point_ranking(input):
+		result = {}
+		
+		result["courses"] = input.list(CourseInfo)
+		result["ranks"] = input.list(input.u32)
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_courses_latest(input):
+		result = {}
+		
+		result["param"] = input.extract(SearchCoursesLatestParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_courses_latest(input):
+		result = {}
+		
+		result["courses"] = input.list(CourseInfo)
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_courses_posted_by(input):
+		result = {}
+		
+		result["param"] = input.extract(SearchCoursesPostedByParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_courses_posted_by(input):
+		result = {}
+		
+		result["courses"] = input.list(CourseInfo)
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_courses_positive_rated_by(input):
+		result = {}
+		
+		result["param"] = input.extract(SearchCoursesPositiveRatedByParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_courses_positive_rated_by(input):
+		result = {}
+		
+		result["courses"] = input.list(CourseInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_courses_played_by(input):
+		result = {}
+		
+		result["param"] = input.extract(SearchCoursesPlayedByParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_courses_played_by(input):
+		result = {}
+		
+		result["courses"] = input.list(CourseInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_courses_endless_mode(input):
+		result = {}
+		
+		result["param"] = input.extract(SearchCoursesEndlessModeParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_courses_endless_mode(input):
+		result = {}
+		
+		result["courses"] = input.list(CourseInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_courses_first_clear(input):
+		result = {}
+		
+		result["param"] = input.extract(SearchCoursesFirstClearParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_courses_first_clear(input):
+		result = {}
+		
+		result["courses"] = input.list(CourseInfo)
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_courses_best_time(input):
+		result = {}
+		
+		result["param"] = input.extract(SearchCoursesBestTimeParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_courses_best_time(input):
+		result = {}
+		
+		result["courses"] = input.list(CourseInfo)
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_courses_event(input):
+		result = {}
+		
+		result["param"] = input.extract(GetCoursesParam)
+		result["dummy"] = input.extract(GetCoursesEventParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_courses_event(input):
+		result = {}
+		
+		result["courses"] = input.list(EventCourseInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_courses_event(input):
+		result = {}
+		
+		result["param"] = input.extract(SearchCoursesEventParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_courses_event(input):
+		result = {}
+		
+		result["courses"] = input.list(EventCourseInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_comments_in_order(input):
+		result = {}
+		
+		result["param"] = input.extract(SearchCommentsInOrderParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_comments_in_order(input):
+		result = {}
+		
+		result["comments"] = input.list(CommentInfo)
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_comments(input):
+		result = {}
+		
+		result["data_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_comments(input):
+		result = {}
+		
+		result["comments"] = input.list(CommentInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_death_positions(input):
+		result = {}
+		
+		result["data_id"] = input.u64()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_death_positions(input):
+		result = {}
+		
+		result["positions"] = input.list(DeathPositionInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_user_or_course(input):
+		result = {}
+		
+		result["param"] = input.extract(GetUserOrCourseParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_user_or_course(input):
+		result = {}
+		
+		result["user"] = input.extract(UserInfo)
+		result["course"] = input.extract(CourseInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_req_get_info_headers_info(input):
+		result = {}
+		
+		result["type"] = input.u8()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_req_get_info_headers_info(input):
+		result = {}
+		
+		result["result"] = input.extract(ReqGetInfoHeadersInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_event_course_stamp(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_event_course_stamp(input):
+		result = {}
+		
+		result["stamps"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_event_course_status(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_event_course_status(input):
+		result = {}
+		
+		result["info"] = input.extract(EventCourseStatusInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_event_course_histogram(input):
+		result = {}
+		
+		result["param"] = input.extract(GetEventCourseHistogramParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_event_course_histogram(input):
+		result = {}
+		
+		result["histogram"] = input.extract(EventCourseHistogram)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_event_course_ghost(input):
+		result = {}
+		
+		result["param"] = input.extract(GetEventCourseGhostParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_event_course_ghost(input):
+		result = {}
+		
+		result["ghosts"] = input.list(EventCourseGhostInfo)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_world_map(input):
+		result = {}
+		
+		result["param"] = input.extract(GetWorldMapParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_world_map(input):
+		result = {}
+		
+		result["maps"] = input.list(WorldMapInfo)
+		result["results"] = input.list(input.result)
+		
+		return result
+	
+	@staticmethod
+	def request_decode_search_world_map_pick_up(input):
+		result = {}
+		
+		result["param"] = input.extract(SearchWorldMapPickUpParam)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_search_world_map_pick_up(input):
+		result = {}
+		
+		result["maps"] = input.list(WorldMapInfo)
+		
+		return result
+	
 
 
 class DataStoreClientSMM2(DataStoreProtocolSMM2):

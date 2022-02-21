@@ -41,6 +41,87 @@ class DebugProtocol:
 	METHOD_GET_API_CALL_SUMMARY = 7
 	
 	PROTOCOL_ID = 0x74
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_ENABLE_API_RECORDER: self.request_decode_enable_api_recorder,
+			self.METHOD_DISABLE_API_RECORDER: self.request_decode_disable_api_recorder,
+			self.METHOD_IS_API_RECORDER_ENABLED: self.request_decode_is_api_recorder_enabled,
+			self.METHOD_GET_API_CALLS: self.request_decode_get_api_calls,
+			self.METHOD_SET_EXCLUDE_JOINED_MATCHMAKE_SESSION: self.request_decode_set_exclude_joined_matchmake_session,
+			self.METHOD_GET_EXCLUDE_JOINED_MATCHMAKE_SESSION: self.request_decode_get_exclude_joined_matchmake_session,
+			self.METHOD_GET_API_CALL_SUMMARY: self.request_decode_get_api_call_summary,
+		}
+		self.response_decodes = {
+			self.METHOD_ENABLE_API_RECORDER: self.response_decode_enable_api_recorder,
+			self.METHOD_DISABLE_API_RECORDER: self.response_decode_disable_api_recorder,
+			self.METHOD_IS_API_RECORDER_ENABLED: self.response_decode_is_api_recorder_enabled,
+			self.METHOD_GET_API_CALLS: self.response_decode_get_api_calls,
+			self.METHOD_SET_EXCLUDE_JOINED_MATCHMAKE_SESSION: self.response_decode_set_exclude_joined_matchmake_session,
+			self.METHOD_GET_EXCLUDE_JOINED_MATCHMAKE_SESSION: self.response_decode_get_exclude_joined_matchmake_session,
+			self.METHOD_GET_API_CALL_SUMMARY: self.response_decode_get_api_call_summary,
+		}
+	
+	@staticmethod
+	def request_decode_enable_api_recorder(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_enable_api_recorder(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_disable_api_recorder(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_disable_api_recorder(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_is_api_recorder_enabled(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_is_api_recorder_enabled(input):
+		result = {}
+		
+		result["enabled"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_api_calls(input):
+		result = {}
+		
+		result["pids"] = input.list(input.pid)
+		result["unk1"] = input.datetime()
+		result["unk2"] = input.datetime()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_api_calls(input):
+		result = {}
+		
+		result["calls"] = input.list(ApiCall)
+		
+		return result
+	
 
 
 class DebugClient(DebugProtocol):

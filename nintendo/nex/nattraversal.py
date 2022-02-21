@@ -17,6 +17,143 @@ class NATTraversalProtocol:
 	METHOD_REPORT_NAT_TRAVERSAL_RESULT_DETAIL = 7
 	
 	PROTOCOL_ID = 0x3
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_REQUEST_PROBE_INITIATION: self.request_decode_request_probe_initiation,
+			self.METHOD_INITIATE_PROBE: self.request_decode_initiate_probe,
+			self.METHOD_REQUEST_PROBE_INITIATION_EXT: self.request_decode_request_probe_initiation_ext,
+			self.METHOD_REPORT_NAT_TRAVERSAL_RESULT: self.request_decode_report_nat_traversal_result,
+			self.METHOD_REPORT_NAT_PROPERTIES: self.request_decode_report_nat_properties,
+			self.METHOD_GET_RELAY_SIGNATURE_KEY: self.request_decode_get_relay_signature_key,
+			self.METHOD_REPORT_NAT_TRAVERSAL_RESULT_DETAIL: self.request_decode_report_nat_traversal_result_detail,
+		}
+		self.response_decodes = {
+			self.METHOD_REQUEST_PROBE_INITIATION: self.response_decode_request_probe_initiation,
+			self.METHOD_INITIATE_PROBE: self.response_decode_initiate_probe,
+			self.METHOD_REQUEST_PROBE_INITIATION_EXT: self.response_decode_request_probe_initiation_ext,
+			self.METHOD_REPORT_NAT_TRAVERSAL_RESULT: self.response_decode_report_nat_traversal_result,
+			self.METHOD_REPORT_NAT_PROPERTIES: self.response_decode_report_nat_properties,
+			self.METHOD_GET_RELAY_SIGNATURE_KEY: self.response_decode_get_relay_signature_key,
+			self.METHOD_REPORT_NAT_TRAVERSAL_RESULT_DETAIL: self.response_decode_report_nat_traversal_result_detail,
+		}
+	
+	@staticmethod
+	def request_decode_request_probe_initiation(input):
+		result = {}
+		
+		result["target_urls"] = input.list(input.stationurl)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_request_probe_initiation(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_initiate_probe(input):
+		result = {}
+		
+		result["station_to_probe"] = input.stationurl()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_initiate_probe(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_request_probe_initiation_ext(input):
+		result = {}
+		
+		result["target_urls"] = input.list(input.stationurl)
+		result["station_to_probe"] = input.stationurl()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_request_probe_initiation_ext(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_report_nat_traversal_result(input):
+		result = {}
+		
+		result["cid"] = input.u32()
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_report_nat_traversal_result(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_report_nat_properties(input):
+		result = {}
+		
+		result["natm"] = input.u32()
+		result["natf"] = input.u32()
+		result["rtt"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_report_nat_properties(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_relay_signature_key(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_relay_signature_key(input):
+		result = {}
+		
+		result["mode"] = input.s32()
+		result["time"] = input.datetime()
+		result["address"] = input.string()
+		result["port"] = input.u16()
+		result["address_type"] = input.s32()
+		result["game_server_id"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_report_nat_traversal_result_detail(input):
+		result = {}
+		
+		result["cid"] = input.u32()
+		result["result"] = input.bool()
+		result["detail"] = input.s32()
+		result["rtt"] = input.u32()
+		
+		return result
+	
+	@staticmethod
+	def response_decode_report_nat_traversal_result_detail(input):
+		result = {}
+		
+		
+		return result
+	
 
 
 class NATTraversalClient(NATTraversalProtocol):

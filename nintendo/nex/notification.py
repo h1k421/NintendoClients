@@ -66,6 +66,29 @@ class NotificationProtocol:
 	METHOD_PROCESS_NOTIFICATION_EVENT = 1
 	
 	PROTOCOL_ID = 0xE
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_PROCESS_NOTIFICATION_EVENT: self.request_decode_process_notification_event,
+		}
+		self.response_decodes = {
+			self.METHOD_PROCESS_NOTIFICATION_EVENT: self.response_decode_process_notification_event,
+		}
+	
+	@staticmethod
+	def request_decode_process_notification_event(input):
+		result = {}
+		
+		result["event"] = input.extract(NotificationEvent)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_process_notification_event(input):
+		result = {}
+		
+		
+		return result
+	
 
 
 class NotificationClient(NotificationProtocol):

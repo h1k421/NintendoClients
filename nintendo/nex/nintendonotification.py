@@ -221,6 +221,46 @@ class NintendoNotificationProtocol:
 	METHOD_PROCESS_NINTENDO_NOTIFICATION_EVENT_ALT = 2
 	
 	PROTOCOL_ID = 0x64
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_PROCESS_NINTENDO_NOTIFICATION_EVENT: self.request_decode_process_nintendo_notification_event,
+			self.METHOD_PROCESS_NINTENDO_NOTIFICATION_EVENT_ALT: self.request_decode_process_nintendo_notification_event_alt,
+		}
+		self.response_decodes = {
+			self.METHOD_PROCESS_NINTENDO_NOTIFICATION_EVENT: self.response_decode_process_nintendo_notification_event,
+			self.METHOD_PROCESS_NINTENDO_NOTIFICATION_EVENT_ALT: self.response_decode_process_nintendo_notification_event_alt,
+		}
+	
+	@staticmethod
+	def request_decode_process_nintendo_notification_event(input):
+		result = {}
+		
+		result["event"] = input.extract(NintendoNotificationEvent)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_process_nintendo_notification_event(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def request_decode_process_nintendo_notification_event_alt(input):
+		result = {}
+		
+		result["event"] = input.extract(NintendoNotificationEvent)
+		
+		return result
+	
+	@staticmethod
+	def response_decode_process_nintendo_notification_event_alt(input):
+		result = {}
+		
+		
+		return result
+	
 
 
 class NintendoNotificationClient(NintendoNotificationProtocol):

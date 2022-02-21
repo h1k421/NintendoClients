@@ -25,6 +25,42 @@ class SubscriberProtocol:
 	METHOD_GET_USER_STATUSES = 15
 	
 	PROTOCOL_ID = 0x79
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_HELLO: self.request_decode_hello,
+			self.METHOD_POST_CONTENT: self.request_decode_post_content,
+			self.METHOD_GET_CONTENT: self.request_decode_get_content,
+			self.METHOD_FOLLOW: self.request_decode_follow,
+			self.METHOD_UNFOLLOW_ALL_AND_FOLLOW: self.request_decode_unfollow_all_and_follow,
+			self.METHOD_UNFOLLOW: self.request_decode_unfollow,
+			self.METHOD_GET_FOLLOWING: self.request_decode_get_following,
+			self.METHOD_GET_FOLLOWER: self.request_decode_get_follower,
+			self.METHOD_GET_NUM_FOLLOWERS: self.request_decode_get_num_followers,
+			self.METHOD_GET_TIMELINE: self.request_decode_get_timeline,
+			self.METHOD_DELETE_CONTENT: self.request_decode_delete_content,
+			self.METHOD_GET_CONTENT_MULTI: self.request_decode_get_content_multi,
+			self.METHOD_UPDATE_USER_STATUS: self.request_decode_update_user_status,
+			self.METHOD_GET_FRIEND_USER_STATUSES: self.request_decode_get_friend_user_statuses,
+			self.METHOD_GET_USER_STATUSES: self.request_decode_get_user_statuses,
+		}
+		self.response_decodes = {
+			self.METHOD_HELLO: self.response_decode_hello,
+			self.METHOD_POST_CONTENT: self.response_decode_post_content,
+			self.METHOD_GET_CONTENT: self.response_decode_get_content,
+			self.METHOD_FOLLOW: self.response_decode_follow,
+			self.METHOD_UNFOLLOW_ALL_AND_FOLLOW: self.response_decode_unfollow_all_and_follow,
+			self.METHOD_UNFOLLOW: self.response_decode_unfollow,
+			self.METHOD_GET_FOLLOWING: self.response_decode_get_following,
+			self.METHOD_GET_FOLLOWER: self.response_decode_get_follower,
+			self.METHOD_GET_NUM_FOLLOWERS: self.response_decode_get_num_followers,
+			self.METHOD_GET_TIMELINE: self.response_decode_get_timeline,
+			self.METHOD_DELETE_CONTENT: self.response_decode_delete_content,
+			self.METHOD_GET_CONTENT_MULTI: self.response_decode_get_content_multi,
+			self.METHOD_UPDATE_USER_STATUS: self.response_decode_update_user_status,
+			self.METHOD_GET_FRIEND_USER_STATUSES: self.response_decode_get_friend_user_statuses,
+			self.METHOD_GET_USER_STATUSES: self.response_decode_get_user_statuses,
+		}
+	
 
 
 class SubscriberClient(SubscriberProtocol):

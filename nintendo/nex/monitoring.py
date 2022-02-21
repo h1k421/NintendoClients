@@ -12,6 +12,46 @@ class MonitoringProtocol:
 	METHOD_GET_CLUSTER_MEMBERS = 2
 	
 	PROTOCOL_ID = 0x13
+	def __init__(self):
+		self.request_decodes = {
+			self.METHOD_PING_DAEMON: self.request_decode_ping_daemon,
+			self.METHOD_GET_CLUSTER_MEMBERS: self.request_decode_get_cluster_members,
+		}
+		self.response_decodes = {
+			self.METHOD_PING_DAEMON: self.response_decode_ping_daemon,
+			self.METHOD_GET_CLUSTER_MEMBERS: self.response_decode_get_cluster_members,
+		}
+	
+	@staticmethod
+	def request_decode_ping_daemon(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_ping_daemon(input):
+		result = {}
+		
+		result["result"] = input.bool()
+		
+		return result
+	
+	@staticmethod
+	def request_decode_get_cluster_members(input):
+		result = {}
+		
+		
+		return result
+	
+	@staticmethod
+	def response_decode_get_cluster_members(input):
+		result = {}
+		
+		result["members"] = input.list(input.string)
+		
+		return result
+	
 
 
 class MonitoringClient(MonitoringProtocol):
